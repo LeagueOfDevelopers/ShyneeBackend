@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShyneeBackend.Application", "ShyneeBackend.Application\ShyneeBackend.Application.csproj", "{569A77F3-22B7-4D7A-9E20-0BE488AF4AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShyneeBackend.Domain", "ShyneeBackend.Domain\ShyneeBackend.Domain.csproj", "{E6133044-1296-41DB-9705-698F5AADDD13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShyneeBackend.Domain", "ShyneeBackend.Domain\ShyneeBackend.Domain.csproj", "{E6133044-1296-41DB-9705-698F5AADDD13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShyneeBackend.Infrastructure", "ShyneeBackend.Infrastructure\ShyneeBackend.Infrastructure.csproj", "{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShyneeBackend.Infrastructure", "ShyneeBackend.Infrastructure\ShyneeBackend.Infrastructure.csproj", "{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

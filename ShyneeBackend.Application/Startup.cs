@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShyneeBackend.Domain.IServices;
+using ShyneeBackend.Domain.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -31,8 +33,12 @@ namespace ShyneeBackend.Application
                 });
                 options.IncludeXmlComments(string.Format(@"{0}/ShyneeBackend.Application.xml", 
                     AppDomain.CurrentDomain.BaseDirectory));
+                options.IncludeXmlComments(string.Format(@"{0}/ShyneeBackend.Domain.xml",
+                    AppDomain.CurrentDomain.BaseDirectory));
                 options.DescribeAllEnumsAsStrings();
             });
+
+            services.AddSingleton<IShyneesService, ShyneesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
