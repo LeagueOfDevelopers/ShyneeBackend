@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShyneeBackend.Domain", "Shy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShyneeBackend.Infrastructure", "ShyneeBackend.Infrastructure\ShyneeBackend.Infrastructure.csproj", "{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShyneeBackend.Helpers", "ShyneeBackend.Helpers\ShyneeBackend.Helpers.csproj", "{0E59BF28-68A9-41A5-A2EC-41F3D7CB2FCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771DDCCC-9508-428E-95F0-57A8EA2C9D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E59BF28-68A9-41A5-A2EC-41F3D7CB2FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E59BF28-68A9-41A5-A2EC-41F3D7CB2FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E59BF28-68A9-41A5-A2EC-41F3D7CB2FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E59BF28-68A9-41A5-A2EC-41F3D7CB2FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

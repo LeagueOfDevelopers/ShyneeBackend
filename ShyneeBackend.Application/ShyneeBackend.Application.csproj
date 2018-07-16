@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShyneeBackend.Domain\ShyneeBackend.Domain.csproj" />
+    <ProjectReference Include="..\ShyneeBackend.Infrastructure\ShyneeBackend.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

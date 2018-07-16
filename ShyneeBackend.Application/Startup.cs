@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Services;
+using ShyneeBackend.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -39,6 +41,8 @@ namespace ShyneeBackend.Application
             });
 
             services.AddSingleton<IShyneesService, ShyneesService>();
+
+            services.AddSingleton<IShyneesRepository, ShyneesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

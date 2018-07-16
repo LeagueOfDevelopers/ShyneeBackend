@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 namespace ShyneeBackend.Domain.Entities
 {
-    class ShyneeProfile
+    public class ShyneeProfile
     {
+        public ShyneeProfile()
+        {
+
+        }
+
         public ShyneeProfile(
             KeyValuePair<bool, string> nickname, 
             KeyValuePair<bool, string> avatarUri, 
@@ -23,46 +28,49 @@ namespace ShyneeBackend.Domain.Entities
             PersonalInfo = personalInfo;
         }
 
+        // Auto generated id
+        public uint Id { get; set; }
+
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee nickname (required)
         /// </summary>
-        public KeyValuePair<bool, string> Nickname { get; }
+        public KeyValuePair<bool, string> Nickname { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee avatar uri
         /// </summary>
-        public KeyValuePair<bool, string> AvatarUri { get; }
+        public KeyValuePair<bool, string> AvatarUri { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee name
         /// </summary>
-        public KeyValuePair<bool, string> Name { get; }
+        public KeyValuePair<bool, string> Name { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee date of birthday
         /// </summary>
-        public KeyValuePair<bool, DateTime> Dob { get; }
+        public KeyValuePair<bool, DateTime> Dob { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee sex: male / female / other
         /// </summary>
-        public KeyValuePair<bool, SexType> Sex { get; }
+        public KeyValuePair<bool, SexType> Sex { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee interests
         /// </summary>
-        public KeyValuePair<bool, string[]> Interests { get; }
+        public KeyValuePair<bool, string[]> Interests { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy
         /// Shynee personal information
         /// </summary>
-        public KeyValuePair<bool, string> PersonalInfo { get; }
+        public KeyValuePair<bool, string> PersonalInfo { get; set; }
     }
 }

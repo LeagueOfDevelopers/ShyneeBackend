@@ -5,10 +5,18 @@
     /// </summary>
     public class ShyneesAroundListInfo
     {
-        public ShyneesAroundListInfo(string nickname)
+        public ShyneesAroundListInfo(
+            uint id,
+            string nickname)
         {
+            Id = id;
             Nickname = nickname;
         }
+
+        /// <summary>
+        /// Shynee id
+        /// </summary>
+        public uint Id { get; }
 
         /// <summary>
         /// Shynee nickname
