@@ -58,7 +58,7 @@ namespace ShyneeBackend.Application
             app.UseSwagger()
                .UseSwaggerUI(options =>
                {
-                   options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ranty API v1.0");
+                   options.SwaggerEndpoint("/swagger/v1/swagger.json", "Shynee API v1.0");
                });
         }
     }
