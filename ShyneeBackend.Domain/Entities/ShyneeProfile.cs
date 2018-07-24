@@ -19,6 +19,7 @@ namespace ShyneeBackend.Domain.Entities
             KeyValuePair<bool, string[]> interests, 
             KeyValuePair<bool, string> personalInfo)
         {
+            Id = Guid.NewGuid();
             Nickname = nickname;
             AvatarUri = avatarUri;
             Name = name;
@@ -29,7 +30,7 @@ namespace ShyneeBackend.Domain.Entities
         }
 
         // Auto generated id
-        public uint Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Key defines parameter privacy

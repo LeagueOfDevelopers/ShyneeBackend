@@ -14,7 +14,7 @@ namespace ShyneeBackend.Helpers
 
             var faker = new Faker<ShyneeProfile>()
                 .StrictMode(true)
-                .RuleFor(s => s.Id, f => f.Random.UInt())
+                .RuleFor(s => s.Id, Guid.NewGuid())
                 .RuleFor(s => s.Nickname, f => new KeyValuePair<bool, string>(
                     f.Random.Bool(), f.Internet.UserName()))
                 .RuleFor(s => s.AvatarUri, f => new KeyValuePair<bool, string>(

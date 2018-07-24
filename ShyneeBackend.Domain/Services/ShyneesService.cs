@@ -15,11 +15,13 @@ namespace ShyneeBackend.Domain.Services
             _shyneesRepository = shyneesRepository;
         }
 
-        public IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList()
+        public IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList(
+            double latitude, double longitude)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShyneeProfiles()
                 .Select(s => new ShyneesAroundListInfo(s.Id, 
-                    s.Nickname.Key ? "Незнакомец" : s.Nickname.Value));
+                    s.Nickname.Key ? "Незнакомец" : s.Nickname.Value,
+                    s.AvatarUri.Value));
             return shyneesAroundListInfos;
         }
     }

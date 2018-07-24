@@ -5,6 +5,7 @@ namespace ShyneeBackend.Domain.IServices
 {
     public interface IShyneesService
     {
-        IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList();
+        IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList(
+            double latitude, double longitude);
     }
 }

@@ -6,5 +6,7 @@ namespace ShyneeBackend.Domain.IRepositories
     public interface IShyneesRepository
     {
         IEnumerable<ShyneeProfile> GetShyneeProfiles();
+
+        IEnumerable<ShyneeCoordinates> GetShyneeCoordinates();
     }
 }
