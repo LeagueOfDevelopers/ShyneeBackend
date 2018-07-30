@@ -13,11 +13,11 @@
         /// <summary>
         /// shynee current latitude
         /// </summary>
-        public double Latitude { get; set; }
+        public double Latitude { get; }
 
         /// <summary>
         /// shynee current longitude
         /// </summary>
-        public double Longitude { get; set; }
+        public double Longitude { get; }
     }
 }

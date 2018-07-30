@@ -3,13 +3,13 @@
     public class ShyneeReadySettings
     {
         public ShyneeReadySettings(
-            bool isReady, 
-            bool backgroundModeIsEnabled, 
-            bool metroModeIsEnabled, 
-            bool pushNotificationsAreEnabled, 
-            bool offerMetroModeActivationWhenNoCoonnectionIsEnabled, 
-            bool offerMetroModeDeactivationWhenCoonnectionIsEnabled, 
-            bool pushNotificationOnNewAcquaintanceIsEnabled)
+            bool isReady = false, 
+            bool backgroundModeIsEnabled = false, 
+            bool metroModeIsEnabled = false, 
+            bool pushNotificationsAreEnabled = true, 
+            bool offerMetroModeActivationWhenNoCoonnectionIsEnabled = true, 
+            bool offerMetroModeDeactivationWhenCoonnectionIsEnabled = true, 
+            bool pushNotificationOnNewAcquaintanceIsEnabled = true)
         {
             IsReady = isReady;
             BackgroundModeIsEnabled = backgroundModeIsEnabled;

@@ -1,12 +1,12 @@
 ﻿namespace ShyneeBackend.Domain.Entities
 {
-    public class ShyneeAuthentication
+    public class ShyneeCredentials
     {
-        public ShyneeAuthentication(
+        public ShyneeCredentials(
             string email, 
             string password, 
-            bool hasGoogleAccount, 
-            bool hasFacebookAccount)
+            bool hasGoogleAccount = false, 
+            bool hasFacebookAccount = false)
         {
             Email = email;
             Password = password;

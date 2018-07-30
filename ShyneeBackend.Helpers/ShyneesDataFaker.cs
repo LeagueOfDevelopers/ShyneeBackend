@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using ShyneeBackend.Domain;
 using ShyneeBackend.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,30 +8,85 @@ namespace ShyneeBackend.Helpers
 {
     public static class ShyneesDataFaker
     {
-        public static IEnumerable<ShyneeProfile> GetShyneeProfiles()
+        private static Faker<ShyneeCoordinates> fakeShyneeCoordinates()
         {
-            Randomizer.Seed = new Random(8675309);
+            return new Faker<ShyneeCoordinates>()
+                .CustomInstantiator(f => new ShyneeCoordinates(
+                    f.Address.Latitude(),
+                    f.Address.Longitude())
+                );
+        }
+
+        private static Faker<ShyneeCredentials> fakeShyneeCredentials()
+        {
+            return new Faker<ShyneeCredentials>()
+                .CustomInstantiator(f => new ShyneeCredentials(
+                    f.Internet.Email(),
+                    f.Internet.Password())
+                );
+        }
+
+        private static Faker<ShyneeReadySettings> fakeShyneeReadySettings()
+        {
+            return new Faker<ShyneeReadySettings>()
+                .CustomInstantiator(f => new ShyneeReadySettings());
+        }
+
+        private static Faker<ShyneeProfile> fakeShyneeProfile()
+        {
+            return new Faker<ShyneeProfile>()
+                .CustomInstantiator(f => new ShyneeProfile(
+                    new ShyneeProfileParameter(
+                        f.PickRandomWithout(ShyneeProfileParameterStatusType.Empty),
+                        f.Internet.UserName()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.Internet.Avatar()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.Date.Past().ToLongDateString()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.Random.String()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.Lorem.Word()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.Lorem.Paragraph()),
+                    new ShyneeProfileParameter(
+                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<Gender>().ToString())
+                    ));
+        }
+
+        private static Shynee fakeShynee()
+        {
+            var shyneeCredentials = fakeShyneeCredentials().Generate();
+            var shyneeCoordinates = fakeShyneeCoordinates().Generate();
+            var shyneeReadySettings = fakeShyneeReadySettings().Generate();
+            var shyneeProfile = fakeShyneeProfile().Generate();
+            var shynee = new Shynee(
+                shyneeCredentials,
+                shyneeCoordinates,
+                shyneeProfile,
+                shyneeReadySettings);
+            return shynee;
+        }
+
+        public static List<Shynee> GenerateShynees()
+        {
             Random random = new Random();
+            var shyneesNumber = random.Next(0, 100);
 
-            var faker = new Faker<ShyneeProfile>()
-                .StrictMode(true)
-                .RuleFor(s => s.Id, Guid.NewGuid())
-                .RuleFor(s => s.Nickname, f => new KeyValuePair<bool, string>(
-                    f.Random.Bool(), f.Internet.UserName()))
-                .RuleFor(s => s.AvatarUri, f => new KeyValuePair<bool, string>(
-                    f.Random.Bool(), f.Internet.Avatar()))
-                .RuleFor(s => s.Dob, f => new KeyValuePair<bool, DateTime>(
-                    f.Random.Bool(), f.Date.Past()))
-                .RuleFor(s => s.Interests, f => new KeyValuePair<bool, string[]>(
-                    f.Random.Bool(), f.Random.ArrayElements(f.Lorem.Words(f.Random.Byte()))))
-                .RuleFor(s => s.Name, f => new KeyValuePair<bool, string>(
-                    f.Random.Bool(), f.Lorem.Word()))
-                .RuleFor(s => s.PersonalInfo, f => new KeyValuePair<bool, string>(
-                    f.Random.Bool(), f.Lorem.Paragraph()))
-                .RuleFor(s => s.Sex, f => new KeyValuePair<bool, Domain.SexType>(
-                    f.Random.Bool(), f.PickRandom<Domain.SexType>()));
+            var shynees = new List<Shynee>();
 
-            return faker.GenerateLazy(random.Next(100));
+            for (var i = 0; i < shyneesNumber; i++)
+            {
+                shynees.Add(fakeShynee());
+            }
+
+            return shynees;
         }
     }
 }

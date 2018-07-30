@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Domain.DTOs;
+using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 
 namespace ShyneeBackend.Application.Controllers
@@ -32,9 +35,32 @@ namespace ShyneeBackend.Application.Controllers
             [FromQuery(Name = "latitude")] double latitude,
             [FromQuery(Name = "longitude")] double longitude)
         {
+            var shyneeCoordinates = new ShyneeCoordinates(latitude, longitude);
             var shyneesAroundList = _shyneesService
-                .GetShyneesAroundList(latitude, longitude);
+                .GetShyneesAroundList(shyneeCoordinates);
             return Ok(shyneesAroundList);
+        }
+
+        /// <summary>
+        /// Gets Shynee by id if exists
+        /// </summary>
+        /// <param name="id">Shynee guid id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{id:guid}")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfile))]
+        [SwaggerResponse(404, Type = typeof(NotFoundResult))]
+        public IActionResult GetShynee([FromRoute] Guid id)
+        {
+            try
+            {
+                var shynee = _shyneesService.GetShynee(id);
+                return Ok(shynee.Profile);
+            }
+            catch (ShyneeNotFoundException ex)
+            {
+                return NotFound();
+            }
         }
     }
 }
