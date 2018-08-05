@@ -10,16 +10,16 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
 {
     public class InMemoryShyneesRepository : IShyneesRepository
     {
-        private static readonly List<Shynee> shyneesStore;
+        private static readonly List<Shynee> _shyneesStore;
 
         static InMemoryShyneesRepository()
         {
-            shyneesStore = ShyneesDataFaker.GenerateShynees();
+            _shyneesStore = ShyneesDataFaker.GenerateShynees();
         }
 
         public Shynee GetShynee(Guid id)
         {
-            var shynee = shyneesStore.Single(s => s.Id == id);
+            var shynee = _shyneesStore.Single(s => s.Id == id);
             return shynee == null ? throw new ShyneeNotFoundException() : shynee;
         }
 
@@ -30,7 +30,7 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
 
         public IEnumerable<Shynee> GetShynees()
         {
-            return shyneesStore;
+            return _shyneesStore;
         }
     }
 }

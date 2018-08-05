@@ -17,19 +17,10 @@ namespace ShyneeBackend.Domain.DTOs
             AvatarUri = avatarUri;
         }
 
-        /// <summary>
-        /// Shynee id
-        /// </summary>
         public Guid Id { get; }
 
-        /// <summary>
-        /// Shynee nickname
-        /// </summary>
         public string Nickname { get; }
 
-        /// <summary>
-        /// Shynee avatar uri
-        /// </summary>
         public string AvatarUri { get; }
     }
 }

@@ -27,13 +27,13 @@ namespace ShyneeBackend.Application
             // CONFIGURATION SETTINGS
 
             var defaultNickname = Configuration.GetValue<string>("App:DefaultNickname");
-            var radiusAround = double.Parse(Configuration.GetValue<string>("App:RadiusAround"));
+            var radiusAround = Configuration.GetValue<double>("App:RadiusAround");
 
             // REPOSITORIES
 
             IShyneesRepository shyneesRepository;
 
-            if (bool.Parse(Configuration.GetValue<string>("Database:IsInMemory")))
+            if (Configuration.GetValue<bool>("Database:IsInMemory"))
             {
                 shyneesRepository = new InMemoryShyneesRepository();
             }

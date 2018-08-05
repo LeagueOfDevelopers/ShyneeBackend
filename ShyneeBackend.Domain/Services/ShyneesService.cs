@@ -33,16 +33,14 @@ namespace ShyneeBackend.Domain.Services
             ShyneeCoordinates shyneeCoordinates)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
-                //.Where(s => CoordinatesManager.CalculateDistance(
-                //    shyneeCoordinates.Latitude, 
-                //    shyneeCoordinates.Longitude, 
-                //    s.Coordinates.Latitude, 
-                //    s.Coordinates.Longitude) <= _radiusAround)
+                .Where(s => s.Coordinates.CalculateDistance(
+                    shyneeCoordinates.Latitude,
+                    shyneeCoordinates.Longitude) <= _radiusAround)
                 .Select(s => 
                     new ShyneesAroundListInfo(s.Id, 
-                        s.Profile.Nickname.Status == ShyneeProfileParameterStatusType.Visible ?
+                        s.Profile.Nickname.Status == ShyneeProfileParameterStatus.Visible ?
                             s.Profile.Nickname.Parameter : _defaultShyneeNickname, 
-                        s.Profile.AvatarUri.Status == ShyneeProfileParameterStatusType.Visible ?
+                        s.Profile.AvatarUri.Status == ShyneeProfileParameterStatus.Visible ?
                             s.Profile.AvatarUri.Parameter : null));
             return shyneesAroundListInfos;
         }

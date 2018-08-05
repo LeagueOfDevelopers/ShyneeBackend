@@ -8,7 +8,7 @@ namespace ShyneeBackend.Helpers
 {
     public static class ShyneesDataFaker
     {
-        private static Faker<ShyneeCoordinates> fakeShyneeCoordinates()
+        private static Faker<ShyneeCoordinates> FakeShyneeCoordinates()
         {
             return new Faker<ShyneeCoordinates>()
                 .CustomInstantiator(f => new ShyneeCoordinates(
@@ -17,7 +17,7 @@ namespace ShyneeBackend.Helpers
                 );
         }
 
-        private static Faker<ShyneeCredentials> fakeShyneeCredentials()
+        private static Faker<ShyneeCredentials> FakeShyneeCredentials()
         {
             return new Faker<ShyneeCredentials>()
                 .CustomInstantiator(f => new ShyneeCredentials(
@@ -26,46 +26,46 @@ namespace ShyneeBackend.Helpers
                 );
         }
 
-        private static Faker<ShyneeReadySettings> fakeShyneeReadySettings()
+        private static Faker<ShyneeReadySettings> FakeShyneeReadySettings()
         {
             return new Faker<ShyneeReadySettings>()
                 .CustomInstantiator(f => new ShyneeReadySettings());
         }
 
-        private static Faker<ShyneeProfile> fakeShyneeProfile()
+        private static Faker<ShyneeProfile> FakeShyneeProfile()
         {
             return new Faker<ShyneeProfile>()
                 .CustomInstantiator(f => new ShyneeProfile(
                     new ShyneeProfileParameter(
-                        f.PickRandomWithout(ShyneeProfileParameterStatusType.Empty),
+                        f.PickRandomWithout(ShyneeProfileParameterStatus.Empty),
                         f.Internet.UserName()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.Internet.Avatar()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.Date.Past().ToLongDateString()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.Random.String()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.Lorem.Word()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.Lorem.Paragraph()),
                     new ShyneeProfileParameter(
-                        f.PickRandom<ShyneeProfileParameterStatusType>(),
+                        f.PickRandom<ShyneeProfileParameterStatus>(),
                         f.PickRandom<Gender>().ToString())
                     ));
         }
 
-        private static Shynee fakeShynee()
+        private static Shynee FakeShynee()
         {
-            var shyneeCredentials = fakeShyneeCredentials().Generate();
-            var shyneeCoordinates = fakeShyneeCoordinates().Generate();
-            var shyneeReadySettings = fakeShyneeReadySettings().Generate();
-            var shyneeProfile = fakeShyneeProfile().Generate();
+            var shyneeCredentials = FakeShyneeCredentials().Generate();
+            var shyneeCoordinates = FakeShyneeCoordinates().Generate();
+            var shyneeReadySettings = FakeShyneeReadySettings().Generate();
+            var shyneeProfile = FakeShyneeProfile().Generate();
             var shynee = new Shynee(
                 shyneeCredentials,
                 shyneeCoordinates,
@@ -83,7 +83,7 @@ namespace ShyneeBackend.Helpers
 
             for (var i = 0; i < shyneesNumber; i++)
             {
-                shynees.Add(fakeShynee());
+                shynees.Add(FakeShynee());
             }
 
             return shynees;

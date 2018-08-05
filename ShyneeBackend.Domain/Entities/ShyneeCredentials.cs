@@ -14,24 +14,12 @@
             HasFacebookAccount = hasFacebookAccount;
         }
 
-        /// <summary>
-        /// Shynee email
-        /// </summary>
         public string Email { get; }
 
-        /// <summary>
-        /// Shynee password
-        /// </summary>
         public string Password { get; }
 
-        /// <summary>
-        /// Defines if shynee can authenticate with Google
-        /// </summary>
         public bool HasGoogleAccount { get; }
 
-        /// <summary>
-        /// Defines if shynee can authenticate with Facebook
-        /// </summary>
         public bool HasFacebookAccount { get; }
     }
 }

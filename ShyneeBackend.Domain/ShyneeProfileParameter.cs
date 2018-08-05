@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ShyneeBackend.Domain
+﻿namespace ShyneeBackend.Domain
 {
     public class ShyneeProfileParameter
     {
         public ShyneeProfileParameter(
-            ShyneeProfileParameterStatusType status = ShyneeProfileParameterStatusType.Empty, 
+            ShyneeProfileParameterStatus status = ShyneeProfileParameterStatus.Empty, 
             string parameter = "")
         {
             Status = status;
             Parameter = parameter;
         }
 
-        /// <summary>
-        /// Defines shynee profile parameter status: 
-        /// hidden, visible or empty
-        /// </summary>
-        public ShyneeProfileParameterStatusType Status { get; }
+        public ShyneeProfileParameterStatus Status { get; }
 
-        /// <summary>
-        /// Defines parameter value
-        /// </summary>
         public string Parameter { get; }
     }
 }

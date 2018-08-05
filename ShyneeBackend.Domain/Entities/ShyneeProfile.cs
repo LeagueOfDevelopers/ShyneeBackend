@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShyneeBackend.Domain.Entities
+﻿namespace ShyneeBackend.Domain.Entities
 {
     public class ShyneeProfile
     {
@@ -9,7 +7,7 @@ namespace ShyneeBackend.Domain.Entities
             ShyneeProfileParameter avatarUri, 
             ShyneeProfileParameter name, 
             ShyneeProfileParameter dob, 
-            ShyneeProfileParameter sex, 
+            ShyneeProfileParameter gender, 
             ShyneeProfileParameter interests, 
             ShyneeProfileParameter personalInfo)
         {
@@ -17,44 +15,26 @@ namespace ShyneeBackend.Domain.Entities
             AvatarUri = avatarUri;
             Name = name;
             Dob = dob;
-            Sex = sex;
+            Gender = gender;
             Interests = interests;
             PersonalInfo = personalInfo;
         }
 
-        /// <summary>
-        /// Shynee nickname (required)
-        /// </summary>
         public ShyneeProfileParameter Nickname { get; }
 
-        /// <summary>
-        /// Shynee avatar uri
-        /// </summary>
         public ShyneeProfileParameter AvatarUri { get; }
 
-        /// <summary>
-        /// Shynee name
-        /// </summary>
         public ShyneeProfileParameter Name { get; }
 
         /// <summary>
-        /// Shynee date of birthday
+        ///  Date of birthday
         /// </summary>
         public ShyneeProfileParameter Dob { get; }
 
-        /// <summary>
-        /// Shynee sex: male / female / other
-        /// </summary>
-        public ShyneeProfileParameter Sex { get; }
+        public ShyneeProfileParameter Gender { get; }
 
-        /// <summary>
-        /// Shynee interests
-        /// </summary>
         public ShyneeProfileParameter Interests { get; }
 
-        /// <summary>
-        /// Shynee personal information
-        /// </summary>
         public ShyneeProfileParameter PersonalInfo { get; }
     }
 }

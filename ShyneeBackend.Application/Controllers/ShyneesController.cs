@@ -42,7 +42,7 @@ namespace ShyneeBackend.Application.Controllers
         }
 
         /// <summary>
-        /// Gets Shynee by id if exists
+        /// Returns Shynee profile public fields if requester is logged in
         /// </summary>
         /// <param name="id">Shynee guid id</param>
         /// <returns></returns>
@@ -50,6 +50,7 @@ namespace ShyneeBackend.Application.Controllers
         [Route("{id:guid}")]
         [SwaggerResponse(200, Type = typeof(ShyneeProfile))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public IActionResult GetShynee([FromRoute] Guid id)
         {
             try
