@@ -11,5 +11,7 @@ namespace ShyneeBackend.Domain.IRepositories
         IEnumerable<ShyneeCoordinates> GetShyneeCoordinates();
 
         Shynee GetShynee(Guid id);
+
+        Shynee UpdateShynee(Shynee shynee);
     }
 }

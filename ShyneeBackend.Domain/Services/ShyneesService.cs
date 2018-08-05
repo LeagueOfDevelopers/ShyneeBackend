@@ -41,6 +41,20 @@ namespace ShyneeBackend.Domain.Services
             return shyneeProfilePublicData;
         }
 
+        public ShyneeReadySettings GetShyneeReadySettings(Guid id)
+        {
+            var shyneeReadySettings = _shyneesRepository.GetShynee(id).ReadySettings;
+            return shyneeReadySettings;
+        }
+
+        public bool ChangeShyneeReadySetting(Guid id, bool isReady)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            shynee.ReadySettings.IsReady = isReady;
+            var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
+            return updatedShynee.ReadySettings.IsReady;
+        }
+
         public IEnumerable<ShyneesAroundList> GetShyneesAroundList(
             ShyneeCoordinates shyneeCoordinates)
         {

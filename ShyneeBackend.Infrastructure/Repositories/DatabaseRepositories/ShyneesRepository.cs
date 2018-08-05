@@ -21,5 +21,10 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
         {
             throw new NotImplementedException();
         }
+
+        public Shynee UpdateShynee(Shynee shynee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -14,6 +14,9 @@ namespace ShyneeBackend.Domain.IServices
         ShyneeProfilePublicData GetShyneePublicData(Guid id);
 
         ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id);
-        
+
+        ShyneeReadySettings GetShyneeReadySettings(Guid id);
+
+        bool ChangeShyneeReadySetting(Guid id, bool isReady);
     }
 }

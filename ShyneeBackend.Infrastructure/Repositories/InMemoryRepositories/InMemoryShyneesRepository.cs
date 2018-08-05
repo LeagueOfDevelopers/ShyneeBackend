@@ -23,6 +23,14 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
             return shynee == null ? throw new ShyneeNotFoundException() : shynee;
         }
 
+        public Shynee UpdateShynee(Shynee shynee)
+        {
+            var shyneeToUpdate = _shyneesStore.Find(s => shynee.Id == s.Id);
+            _shyneesStore.Remove(shyneeToUpdate);
+            _shyneesStore.Add(shynee);
+            return shynee;
+        }
+
         public IEnumerable<ShyneeCoordinates> GetShyneeCoordinates()
         {
             throw new NotImplementedException();
