@@ -7,8 +7,13 @@ namespace ShyneeBackend.Domain.IServices
 {
     public interface IShyneesService
     {
-        IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
+        IEnumerable<ShyneesAroundList> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
 
         Shynee GetShynee(Guid id);
+
+        ShyneeProfilePublicData GetShyneePublicData(Guid id);
+
+        ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id);
+        
     }
 }

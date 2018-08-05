@@ -1,10 +1,10 @@
 ﻿namespace ShyneeBackend.Domain
 {
-    public class ShyneeProfileParameter
+    public class ShyneeProfileParameter<T>
     {
         public ShyneeProfileParameter(
             ShyneeProfileParameterStatus status = ShyneeProfileParameterStatus.Empty, 
-            string parameter = "")
+            T parameter = default(T))
         {
             Status = status;
             Parameter = parameter;
@@ -12,6 +12,6 @@
 
         public ShyneeProfileParameterStatus Status { get; }
 
-        public string Parameter { get; }
+        public T Parameter { get; }
     }
 }

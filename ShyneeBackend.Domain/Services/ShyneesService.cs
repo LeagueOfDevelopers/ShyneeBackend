@@ -29,19 +29,32 @@ namespace ShyneeBackend.Domain.Services
             return _shyneesRepository.GetShynee(id);
         }
 
-        public IEnumerable<ShyneesAroundListInfo> GetShyneesAroundList(
+        public ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ShyneeProfilePublicData GetShyneePublicData(Guid id)
+        {
+            var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
+            var shyneeProfilePublicData = shyneeProfile.GeneratePublicShyneeProfile();
+            return shyneeProfilePublicData;
+        }
+
+        public IEnumerable<ShyneesAroundList> GetShyneesAroundList(
             ShyneeCoordinates shyneeCoordinates)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
-                .Where(s => s.Coordinates.CalculateDistance(
-                    shyneeCoordinates.Latitude,
-                    shyneeCoordinates.Longitude) <= _radiusAround)
-                .Select(s => 
-                    new ShyneesAroundListInfo(s.Id, 
-                        s.Profile.Nickname.Status == ShyneeProfileParameterStatus.Visible ?
-                            s.Profile.Nickname.Parameter : _defaultShyneeNickname, 
-                        s.Profile.AvatarUri.Status == ShyneeProfileParameterStatus.Visible ?
-                            s.Profile.AvatarUri.Parameter : null));
+                //.Where(s => s.Coordinates.CalculateDistance(
+                //    shyneeCoordinates.Latitude,
+                //    shyneeCoordinates.Longitude) <= _radiusAround)
+                .Select(s =>
+                {
+                    var publicProfile = s.Profile.GeneratePublicShyneeProfile();
+                    return new ShyneesAroundList(s.Id,
+                        publicProfile.Nickname,
+                        publicProfile.AvatarUri);
+                });
             return shyneesAroundListInfos;
         }
     }

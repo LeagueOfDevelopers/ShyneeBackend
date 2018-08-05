@@ -36,27 +36,27 @@ namespace ShyneeBackend.Helpers
         {
             return new Faker<ShyneeProfile>()
                 .CustomInstantiator(f => new ShyneeProfile(
-                    new ShyneeProfileParameter(
+                    new ShyneeProfileParameter<string>(
                         f.PickRandomWithout(ShyneeProfileParameterStatus.Empty),
                         f.Internet.UserName()),
-                    new ShyneeProfileParameter(
+                    new ShyneeProfileParameter<Uri>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Internet.Avatar()),
-                    new ShyneeProfileParameter(
+                        new Uri(f.Internet.Avatar())),
+                    new ShyneeProfileParameter<string>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Date.Past().ToLongDateString()),
-                    new ShyneeProfileParameter(
+                        f.Person.FirstName),
+                    new ShyneeProfileParameter<DateTime>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Random.String()),
-                    new ShyneeProfileParameter(
+                        f.Person.DateOfBirth),
+                    new ShyneeProfileParameter<Gender>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Lorem.Word()),
-                    new ShyneeProfileParameter(
+                        f.PickRandom<Gender>()),
+                    new ShyneeProfileParameter<string[]>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Lorem.Paragraph()),
-                    new ShyneeProfileParameter(
+                        f.Random.WordsArray(0, 10)),
+                    new ShyneeProfileParameter<string>(
                         f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.PickRandom<Gender>().ToString())
+                        f.Lorem.Paragraph())
                     ));
         }
 

@@ -6,6 +6,7 @@ using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -30,8 +31,8 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns>Shynees around list</returns>
         [HttpGet]
         [Route("around")]
-        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundListInfo>))]
-        public IActionResult GetShyneesAround(
+        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundList>))]
+        public async Task<IActionResult> GetShyneesAround(
             [FromQuery(Name = "latitude")] double latitude,
             [FromQuery(Name = "longitude")] double longitude)
         {
@@ -48,15 +49,15 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id:guid}")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfile))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfilePublicData))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
-        public IActionResult GetShynee([FromRoute] Guid id)
+        public async Task<IActionResult> GetShynee([FromRoute] Guid id)
         {
             try
             {
-                var shynee = _shyneesService.GetShynee(id);
-                return Ok(shynee.Profile);
+                var shynee = _shyneesService.GetShyneePublicData(id);
+                return Ok(shynee);
             }
             catch (ShyneeNotFoundException ex)
             {
