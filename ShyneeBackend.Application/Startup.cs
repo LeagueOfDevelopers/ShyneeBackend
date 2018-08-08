@@ -5,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Services;
-using ShyneeBackend.Infrastructure.Repositories;
+using ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories;
+using ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -23,26 +24,48 @@ namespace ShyneeBackend.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // CONFIGURATION SETTINGS
+
+            var defaultNickname = Configuration.GetValue<string>("App:DefaultNickname");
+            var radiusAround = Configuration.GetValue<double>("App:RadiusAround");
+
+            // REPOSITORIES
+
+            IShyneesRepository shyneesRepository;
+
+            if (Configuration.GetValue<bool>("Database:IsInMemory"))
+            {
+                shyneesRepository = new InMemoryShyneesRepository();
+            }
+            else
+            {
+                shyneesRepository = new ShyneesRepository();
+            }
+
+            // SERVICES
+
+            var shyneesService = new ShyneesService(shyneesRepository, defaultNickname, radiusAround);
+            
+            services.AddSingleton<IShyneesService>(shyneesService);
+
+            // OTHER DEPENDENCIES
+
             services.AddMvc();
 
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info
                 {
-                    Title = Configuration["App:Title"],
-                    Version = Configuration["App:Version"],
-                    Description = Configuration["App:Description"]
+                    Title = Configuration["Swagger:Title"],
+                    Version = Configuration["Swagger:Version"],
+                    Description = Configuration["Swagger:Description"]
                 });
-                options.IncludeXmlComments(string.Format(@"{0}/ShyneeBackend.Application.xml", 
+                options.IncludeXmlComments(string.Format(@"{0}/ShyneeBackend.Application.xml",
                     AppDomain.CurrentDomain.BaseDirectory));
                 options.IncludeXmlComments(string.Format(@"{0}/ShyneeBackend.Domain.xml",
                     AppDomain.CurrentDomain.BaseDirectory));
                 options.DescribeAllEnumsAsStrings();
             });
-
-            services.AddSingleton<IShyneesService, ShyneesService>();
-
-            services.AddSingleton<IShyneesRepository, ShyneesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

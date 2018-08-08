@@ -1,77 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ShyneeBackend.Domain.DTOs;
+using ShyneeBackend.Domain.Exceptions;
+using System;
 
 namespace ShyneeBackend.Domain.Entities
 {
     public class ShyneeProfile
     {
-        public ShyneeProfile()
-        {
-
-        }
+        private const string _defaultNickname = "Stranger";
 
         public ShyneeProfile(
-            KeyValuePair<bool, string> nickname, 
-            KeyValuePair<bool, string> avatarUri, 
-            KeyValuePair<bool, string> name, 
-            KeyValuePair<bool, DateTime> dob, 
-            KeyValuePair<bool, SexType> sex, 
-            KeyValuePair<bool, string[]> interests, 
-            KeyValuePair<bool, string> personalInfo)
+            ShyneeProfileParameter<string> nickname,
+            ShyneeProfileParameter<Uri> avatarUri, 
+            ShyneeProfileParameter<string> name, 
+            ShyneeProfileParameter<DateTime> dob, 
+            ShyneeProfileParameter<Gender> gender, 
+            ShyneeProfileParameter<string[]> interests, 
+            ShyneeProfileParameter<string> personalInfo)
         {
-            Id = Guid.NewGuid();
+            if (nickname.Status == ShyneeProfileParameterStatus.Empty)
+                throw new ShyneeProfileNicknameIsEmptyException();
+
             Nickname = nickname;
             AvatarUri = avatarUri;
             Name = name;
             Dob = dob;
-            Sex = sex;
+            Gender = gender;
             Interests = interests;
             PersonalInfo = personalInfo;
         }
 
-        // Auto generated id
-        public Guid Id { get; set; }
+        public ShyneeProfileParameter<string> Nickname { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee nickname (required)
-        /// </summary>
-        public KeyValuePair<bool, string> Nickname { get; set; }
+        public ShyneeProfileParameter<Uri> AvatarUri { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee avatar uri
-        /// </summary>
-        public KeyValuePair<bool, string> AvatarUri { get; set; }
+        public ShyneeProfileParameter<string> Name { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee name
-        /// </summary>
-        public KeyValuePair<bool, string> Name { get; set; }
+        public ShyneeProfileParameter<DateTime> Dob { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee date of birthday
-        /// </summary>
-        public KeyValuePair<bool, DateTime> Dob { get; set; }
+        public ShyneeProfileParameter<Gender> Gender { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee sex: male / female / other
-        /// </summary>
-        public KeyValuePair<bool, SexType> Sex { get; set; }
+        public ShyneeProfileParameter<string[]> Interests { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee interests
-        /// </summary>
-        public KeyValuePair<bool, string[]> Interests { get; set; }
+        public ShyneeProfileParameter<string> PersonalInfo { get; }
 
-        /// <summary>
-        /// Key defines parameter privacy
-        /// Shynee personal information
-        /// </summary>
-        public KeyValuePair<bool, string> PersonalInfo { get; set; }
+        public ShyneeProfilePublicData GeneratePublicShyneeProfile()
+        {
+            var publicShyneeProfile = new ShyneeProfilePublicData(
+                Nickname.Status == ShyneeProfileParameterStatus.Hidden ? 
+                    _defaultNickname : Nickname.Parameter,
+                AvatarUri.Status == ShyneeProfileParameterStatus.Visible ? 
+                    AvatarUri.Parameter.ToString() : null,
+                Name.Status == ShyneeProfileParameterStatus.Visible ? 
+                    Name.Parameter : null,
+                Dob.Status == ShyneeProfileParameterStatus.Visible ? 
+                    (DateTime?)Dob.Parameter : null,
+                Gender.Status == ShyneeProfileParameterStatus.Visible ? 
+                    (Gender?)Gender.Parameter : null,
+                Interests.Status == ShyneeProfileParameterStatus.Visible ? 
+                    Interests.Parameter : null,
+                PersonalInfo.Status == ShyneeProfileParameterStatus.Visible ? 
+                    PersonalInfo.Parameter : null);
+            return publicShyneeProfile;
+        } 
     }
 }

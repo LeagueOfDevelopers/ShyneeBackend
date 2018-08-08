@@ -1,9 +1,9 @@
 ﻿namespace ShyneeBackend.Domain
 {
-    public enum SexType
+    public enum Gender
     {
+        Other,
         Male,
-        Female,
-        Other
+        Female
     }
 }
