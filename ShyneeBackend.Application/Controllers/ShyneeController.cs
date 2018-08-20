@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.IServices;
@@ -31,8 +32,32 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeProfileForEdit([FromRoute] Guid id)
         {
-            var shynee = _shyneesService.GetShyneeProfileForEdit(id);
-            return Ok(shynee);
+            var shyneeProfileForEdit = _shyneesService.GetShyneeProfileForEdit(id);
+            return Ok(shyneeProfileForEdit);
+        }
+
+        [HttpPost]
+        [Route("profile")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileForEdit))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        public async Task<IActionResult> UpdateShyneeProfile(
+            [FromRoute] Guid id, 
+            [FromBody] EditedShyneeProfile profile)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var shyneeProfileForEdit = _shyneesService.UpdateShyneeProfile(
+                id, 
+                new ShyneeProfile(
+                    profile.Nickname,
+                    profile.AvatarUri,
+                    profile.Name,
+                    profile.Dob,
+                    profile.Gender,
+                    profile.Interests,
+                    profile.PersonalInfo));
+            return Ok(shyneeProfileForEdit);
         }
 
         /// <summary>

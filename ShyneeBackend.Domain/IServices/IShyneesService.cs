@@ -15,6 +15,10 @@ namespace ShyneeBackend.Domain.IServices
 
         ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id);
 
+        ShyneeProfileForEdit UpdateShyneeProfile(
+            Guid id,
+            ShyneeProfile profileForEdit);
+
         ShyneeReadySettings GetShyneeReadySettings(Guid id);
 
         bool ChangeShyneeReadySetting(Guid id, bool isReady);

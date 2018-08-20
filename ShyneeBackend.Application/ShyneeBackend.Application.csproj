@@ -16,7 +16,6 @@
     <Folder Include="Attributes\" />
     <Folder Include="Filters\" />
     <Folder Include="Middlewares\" />
-    <Folder Include="RequestModels\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
