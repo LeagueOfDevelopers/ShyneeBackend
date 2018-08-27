@@ -87,9 +87,9 @@ namespace ShyneeBackend.Domain.Services
             ShyneeCoordinates shyneeCoordinates)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
-                //.Where(s => s.Coordinates.CalculateDistance(
-                //    shyneeCoordinates.Latitude,
-                //    shyneeCoordinates.Longitude) <= _radiusAround)
+                .Where(s => s.Coordinates.CalculateDistance(
+                    shyneeCoordinates.Latitude,
+                    shyneeCoordinates.Longitude) <= _radiusAround)
                 .Select(s =>
                 {
                     var publicProfile = s.Profile.GeneratePublicShyneeProfile();
