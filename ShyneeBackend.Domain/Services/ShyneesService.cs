@@ -1,5 +1,6 @@
 ﻿using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using System;
@@ -98,6 +99,21 @@ namespace ShyneeBackend.Domain.Services
                         publicProfile.AvatarUri);
                 });
             return shyneesAroundListInfos;
+        }
+
+        public Guid CreateShynee(
+            ShyneeCredentials shyneeCredentials, 
+            Entities.ShyneeProfile shyneeProfile)
+        {
+            if (_shyneesRepository.IsShyneeExists(shyneeCredentials.Email))
+                throw new ShyneeDuplicateException();
+            var shynee = new Shynee(
+                shyneeCredentials,
+                new ShyneeCoordinates(),
+                shyneeProfile,
+                new ShyneeReadySettings());
+            var id = _shyneesRepository.CreateShynee(shynee);
+            return id;
         }
     }
 }

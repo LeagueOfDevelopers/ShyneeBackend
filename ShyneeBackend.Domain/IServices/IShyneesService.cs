@@ -11,6 +11,10 @@ namespace ShyneeBackend.Domain.IServices
 
         Shynee GetShynee(Guid id);
 
+        Guid CreateShynee(
+            ShyneeCredentials shyneeCredentials, 
+            Entities.ShyneeProfile shyneeProfile);
+
         ShyneeProfilePublicData GetShyneePublicData(Guid id);
 
         DTOs.ShyneeProfile GetShyneeProfile(Guid id);
