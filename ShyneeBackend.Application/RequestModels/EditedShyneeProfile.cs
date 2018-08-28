@@ -12,7 +12,7 @@ namespace ShyneeBackend.Application.RequestModels
         [Required]
         public ShyneeProfileParameter<Uri> AvatarUri { get; set; }
 
-        [Required]
+        [Required]  
         public ShyneeProfileParameter<string> Name { get; set; }
 
         [Required]
@@ -20,7 +20,7 @@ namespace ShyneeBackend.Application.RequestModels
 
         [Required]
         public ShyneeProfileParameter<Gender> Gender { get; set; }
-
+         
         [Required]
         public ShyneeProfileParameter<string[]> Interests { get; set; }
 

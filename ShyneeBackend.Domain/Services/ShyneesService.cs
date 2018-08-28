@@ -29,10 +29,10 @@ namespace ShyneeBackend.Domain.Services
             return _shyneesRepository.GetShynee(id);
         }
 
-        public ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id)
+        public DTOs.ShyneeProfile GetShyneeProfile(Guid id)
         {
             var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
-            var shyneeProfileForEdit = new ShyneeProfileForEdit(
+            var shyneeProfileForEdit = new DTOs.ShyneeProfile(
                 id,
                 shyneeProfile.Nickname,
                 shyneeProfile.AvatarUri,
@@ -44,14 +44,14 @@ namespace ShyneeBackend.Domain.Services
             return shyneeProfileForEdit;
         }
 
-        public ShyneeProfileForEdit UpdateShyneeProfile(
-            Guid id, 
-            ShyneeProfile profileForEdit)
+        public DTOs.ShyneeProfile UpdateShyneeProfile(
+            Guid id,
+            Entities.ShyneeProfile profileForEdit)
         {
             var shynee = _shyneesRepository.GetShynee(id);
             shynee.UpdateProfile(profileForEdit);
             _shyneesRepository.UpdateShynee(shynee);
-            return new ShyneeProfileForEdit(
+            return new DTOs.ShyneeProfile(
                 id,
                 profileForEdit.Nickname,
                 profileForEdit.AvatarUri,

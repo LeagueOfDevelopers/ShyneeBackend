@@ -28,17 +28,17 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileForEdit))]
+        [SwaggerResponse(200, Type = typeof(Domain.DTOs.ShyneeProfile))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
-        public async Task<IActionResult> GetShyneeProfileForEdit([FromRoute] Guid id)
+        public async Task<IActionResult> GetShyneeProfile([FromRoute] Guid id)
         {
-            var shyneeProfileForEdit = _shyneesService.GetShyneeProfileForEdit(id);
+            var shyneeProfileForEdit = _shyneesService.GetShyneeProfile(id);
             return Ok(shyneeProfileForEdit);
         }
 
         [HttpPost]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileForEdit))]
+        [SwaggerResponse(200, Type = typeof(Domain.DTOs.ShyneeProfile))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> UpdateShyneeProfile(
@@ -49,7 +49,7 @@ namespace ShyneeBackend.Application.Controllers
                 return BadRequest(ModelState);
             var shyneeProfileForEdit = _shyneesService.UpdateShyneeProfile(
                 id, 
-                new ShyneeProfile(
+                new Domain.Entities.ShyneeProfile(
                     profile.Nickname,
                     profile.AvatarUri,
                     profile.Name,

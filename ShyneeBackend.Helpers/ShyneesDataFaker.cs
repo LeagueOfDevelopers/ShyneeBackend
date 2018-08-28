@@ -77,7 +77,7 @@ namespace ShyneeBackend.Helpers
         public static List<Shynee> GenerateShynees()
         {
             Random random = new Random();
-            var shyneesNumber = random.Next(0, 100);
+            var shyneesNumber = random.Next(0, 1000);
 
             var shynees = new List<Shynee>();
 
