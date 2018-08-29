@@ -29,9 +29,37 @@ namespace ShyneeBackend.Domain.Services
             return _shyneesRepository.GetShynee(id);
         }
 
-        public ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id)
+        public DTOs.ShyneeProfile GetShyneeProfile(Guid id)
         {
-            throw new NotImplementedException();
+            var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
+            var shyneeProfileForEdit = new DTOs.ShyneeProfile(
+                id,
+                shyneeProfile.Nickname,
+                shyneeProfile.AvatarUri,
+                shyneeProfile.Name,
+                shyneeProfile.Dob,
+                shyneeProfile.Gender,
+                shyneeProfile.Interests,
+                shyneeProfile.PersonalInfo);
+            return shyneeProfileForEdit;
+        }
+
+        public DTOs.ShyneeProfile UpdateShyneeProfile(
+            Guid id,
+            Entities.ShyneeProfile profileForEdit)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            shynee.UpdateProfile(profileForEdit);
+            _shyneesRepository.UpdateShynee(shynee);
+            return new DTOs.ShyneeProfile(
+                id,
+                profileForEdit.Nickname,
+                profileForEdit.AvatarUri,
+                profileForEdit.Name,
+                profileForEdit.Dob,
+                profileForEdit.Gender,
+                profileForEdit.Interests,
+                profileForEdit.PersonalInfo);
         }
 
         public ShyneeProfilePublicData GetShyneePublicData(Guid id)
@@ -59,9 +87,9 @@ namespace ShyneeBackend.Domain.Services
             ShyneeCoordinates shyneeCoordinates)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
-                //.Where(s => s.Coordinates.CalculateDistance(
-                //    shyneeCoordinates.Latitude,
-                //    shyneeCoordinates.Longitude) <= _radiusAround)
+                .Where(s => s.Coordinates.CalculateDistance(
+                    shyneeCoordinates.Latitude,
+                    shyneeCoordinates.Longitude) <= _radiusAround)
                 .Select(s =>
                 {
                     var publicProfile = s.Profile.GeneratePublicShyneeProfile();

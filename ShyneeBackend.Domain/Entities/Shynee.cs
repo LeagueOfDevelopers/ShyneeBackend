@@ -37,8 +37,13 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeCoordinates Coordinates { get; }
 
-        public ShyneeProfile Profile { get; }
+        public ShyneeProfile Profile { get; private set; }
 
         public ShyneeReadySettings ReadySettings { get; }
+
+        public void UpdateProfile(ShyneeProfile profile)
+        {
+            Profile = profile;
+        }
     }
 }

@@ -13,7 +13,11 @@ namespace ShyneeBackend.Domain.IServices
 
         ShyneeProfilePublicData GetShyneePublicData(Guid id);
 
-        ShyneeProfileForEdit GetShyneeProfileForEdit(Guid id);
+        DTOs.ShyneeProfile GetShyneeProfile(Guid id);
+
+        DTOs.ShyneeProfile UpdateShyneeProfile(
+            Guid id,
+            Entities.ShyneeProfile profileForEdit);
 
         ShyneeReadySettings GetShyneeReadySettings(Guid id);
 
