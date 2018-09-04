@@ -74,6 +74,27 @@ namespace ShyneeBackend.Helpers
             return shynee;
         }
 
+        private static Shynee GetStaticShynee()
+        {
+            var shyneeCredentials = new ShyneeCredentials("shy@mail.com", "qwertyui");
+            var shyneeCoordinates = FakeShyneeCoordinates().Generate();
+            var shyneeReadySettings = new ShyneeReadySettings();
+            var shyneeProfile = new ShyneeProfile(new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),
+                    new ShyneeProfileParameter<Uri>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<DateTime>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<Gender>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<string[]>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty));
+            var shynee = new Shynee(
+                Guid.Empty,
+                shyneeCredentials,
+                shyneeCoordinates,
+                shyneeProfile,
+                shyneeReadySettings);
+            return shynee;
+        }
+
         public static List<Shynee> GenerateShynees()
         {
             Random random = new Random();
@@ -85,6 +106,10 @@ namespace ShyneeBackend.Helpers
             {
                 shynees.Add(FakeShynee());
             }
+
+            var staticShynee = GetStaticShynee();
+
+            shynees.Add(staticShynee);
 
             return shynees;
         }

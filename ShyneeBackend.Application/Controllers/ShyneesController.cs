@@ -29,7 +29,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="latitude">Shynee current latitude</param>
         /// <param name="longitude">Shynee current longitude</param>
         /// <returns>Shynees around list</returns>
-        [HttpGet]
+        [HttpPut]
         [Route("around")]
         [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundList>))]
         public async Task<IActionResult> GetShyneesAround(
@@ -39,6 +39,7 @@ namespace ShyneeBackend.Application.Controllers
             var shyneeCoordinates = new ShyneeCoordinates(latitude, longitude);
             var shyneesAroundList = _shyneesService
                 .GetShyneesAroundList(shyneeCoordinates);
+            // if user is logged in update coordinates
             return Ok(shyneesAroundList);
         }
 
