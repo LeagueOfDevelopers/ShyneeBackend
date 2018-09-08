@@ -1,5 +1,4 @@
-﻿using ShyneeBackend.Domain.Entities;
-using System;
+﻿using System;
 
 namespace ShyneeBackend.Domain.DTOs
 {
@@ -7,18 +6,18 @@ namespace ShyneeBackend.Domain.DTOs
     {
         public ShyneeProfileWithCredentials(
             Guid id,
-            ShyneeCredentials credentials,
+            string email,
             Entities.ShyneeProfile profile)
         {
             Id = id;
-            Credentials = credentials;
+            Email = email;
             Profile = profile;
         }
 
         public Guid Id { get; }
 
-        ShyneeCredentials Credentials { get; }
+        public string Email { get; }
 
-        Entities.ShyneeProfile Profile { get; }
+        public Entities.ShyneeProfile Profile { get; }
     }
 }

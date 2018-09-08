@@ -4,6 +4,7 @@ using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.IServices;
+using ShyneeBackend.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Threading.Tasks;
 
@@ -35,7 +36,9 @@ namespace ShyneeBackend.Application.Controllers
         public async Task<IActionResult> CreateShynee(
             [FromBody] CreateShynee shynee)
         {
-            var shyneeCredentials = new ShyneeCredentials(shynee.Email, shynee.Password);
+            var shyneeCredentials = new ShyneeCredentials(
+                shynee.Email, 
+                Hasher.HashPassword(shynee.Password));
             var shyneeProfile = new Domain.Entities.ShyneeProfile(
                 shynee.Nickname,
                 shynee.AvatarUri,

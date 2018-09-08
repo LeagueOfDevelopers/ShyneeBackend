@@ -22,7 +22,7 @@ namespace ShyneeBackend.Helpers
             return new Faker<ShyneeCredentials>()
                 .CustomInstantiator(f => new ShyneeCredentials(
                     f.Internet.Email(),
-                    f.Internet.Password())
+                    Hasher.HashPassword(f.Internet.Password()))
                 );
         }
 
@@ -92,7 +92,7 @@ namespace ShyneeBackend.Helpers
 
         private static Shynee GetStaticShynee()
         {
-            var shyneeCredentials = new ShyneeCredentials("shy@mail.com", "qwertyui");
+            var shyneeCredentials = new ShyneeCredentials("shy@mail.com", Hasher.HashPassword("qwertyui"));
             var shyneeCoordinates = FakeShyneeCoordinates().Generate();
             var shyneeReadySettings = new ShyneeReadySettings();
             var shyneeProfile = new ShyneeProfile(new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),

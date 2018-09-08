@@ -111,7 +111,7 @@ namespace ShyneeBackend.Domain.Services
             var createdShynee = _shyneesRepository.GetShynee(id);
             var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
                 createdShynee.Id,
-                createdShynee.Credentials,
+                createdShynee.Credentials.Email,
                 createdShynee.Profile);
             return shyneeProfileWithCredentials;
         }
