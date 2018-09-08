@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
-using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -55,15 +54,8 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)
         {
-            try
-            {
-                var shynee = _shyneesService.GetShyneePublicData(id);
-                return Ok(shynee);
-            }
-            catch (ShyneeNotFoundException ex)
-            {
-                return NotFound();
-            }
+            var shynee = _shyneesService.GetShyneePublicData(id);
+            return Ok(shynee);
         }
     }
 }

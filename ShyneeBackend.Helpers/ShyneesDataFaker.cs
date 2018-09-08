@@ -34,29 +34,45 @@ namespace ShyneeBackend.Helpers
 
         private static Faker<ShyneeProfile> FakeShyneeProfile()
         {
+            var faker = new Faker();
+
+            var nicknameParameterStatus = faker.PickRandomWithout(ShyneeProfileParameterStatus.Empty);
+            var avatarUriParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+            var nameParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+            var dobParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+            var genderParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+            var interestsParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+            var personalInfoParameterStatus = faker.PickRandom<ShyneeProfileParameterStatus>();
+
             return new Faker<ShyneeProfile>()
                 .CustomInstantiator(f => new ShyneeProfile(
                     new ShyneeProfileParameter<string>(
-                        f.PickRandomWithout(ShyneeProfileParameterStatus.Empty),
+                        nicknameParameterStatus,
                         f.Internet.UserName()),
                     new ShyneeProfileParameter<Uri>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        new Uri(f.Internet.Avatar())),
+                        avatarUriParameterStatus,
+                        avatarUriParameterStatus != ShyneeProfileParameterStatus.Empty ? 
+                            new Uri(f.Internet.Avatar()) : null),
                     new ShyneeProfileParameter<string>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Person.FirstName),
+                        nameParameterStatus,
+                        nameParameterStatus != ShyneeProfileParameterStatus.Empty ?
+                            f.Person.FirstName : null),
                     new ShyneeProfileParameter<DateTime>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Person.DateOfBirth),
+                        dobParameterStatus,
+                        dobParameterStatus != ShyneeProfileParameterStatus.Empty ?
+                            f.Person.DateOfBirth : default(DateTime)),
                     new ShyneeProfileParameter<Gender>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.PickRandom<Gender>()),
+                        genderParameterStatus,
+                        genderParameterStatus != ShyneeProfileParameterStatus.Empty ? 
+                            f.PickRandom<Gender>() : default(Gender)),
                     new ShyneeProfileParameter<string[]>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Random.WordsArray(0, 10)),
+                        interestsParameterStatus,
+                        interestsParameterStatus != ShyneeProfileParameterStatus.Empty ? 
+                            f.Random.WordsArray(0, 10) : null),
                     new ShyneeProfileParameter<string>(
-                        f.PickRandom<ShyneeProfileParameterStatus>(),
-                        f.Lorem.Paragraph())
+                        personalInfoParameterStatus,
+                        personalInfoParameterStatus != ShyneeProfileParameterStatus.Empty ? 
+                            f.Lorem.Paragraph() : null)
                     ));
         }
 
@@ -87,7 +103,7 @@ namespace ShyneeBackend.Helpers
                     new ShyneeProfileParameter<string[]>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty));
             var shynee = new Shynee(
-                Guid.Empty,
+                new Guid("452B5C13-E964-499C-89D4-072EEC43E7A4"),
                 shyneeCredentials,
                 shyneeCoordinates,
                 shyneeProfile,

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShyneeBackend.Application.Filters;
+using ShyneeBackend.Application.Middlewares;
 using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Services;
@@ -50,7 +52,12 @@ namespace ShyneeBackend.Application
 
             // OTHER DEPENDENCIES
 
-            services.AddMvc();
+            services.AddScoped<ModelValidationAttribute>();
+
+            services.AddMvc(config => 
+            {
+                config.ReturnHttpNotAcceptable = true;
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -76,13 +83,17 @@ namespace ShyneeBackend.Application
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            // MIDDLEWARES
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseSwagger()
                .UseSwaggerUI(options =>
                {
                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Shynee API v1.0");
                });
+
+            app.UseMvc();
         }
     }
 }

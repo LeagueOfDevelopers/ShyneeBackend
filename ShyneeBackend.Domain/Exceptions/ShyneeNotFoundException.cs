@@ -6,7 +6,16 @@ namespace ShyneeBackend.Domain.Exceptions
     {
         public ShyneeNotFoundException() : base()
         {
-            
+        }
+
+        public ShyneeNotFoundException(string message)
+        : base(message)
+        {
+        }
+
+        public ShyneeNotFoundException(string message, Exception inner)
+            : base(message, inner)
+        {
         }
     }
 }

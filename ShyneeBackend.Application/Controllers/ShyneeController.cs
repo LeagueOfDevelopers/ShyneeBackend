@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.IServices;
@@ -40,15 +41,14 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(200, Type = typeof(Domain.DTOs.ShyneeProfile))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [ModelValidation]
         public async Task<IActionResult> UpdateShyneeProfile(
             [FromRoute] Guid id, 
             [FromBody] EditedShyneeProfile profile)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             var shyneeProfileForEdit = _shyneesService.UpdateShyneeProfile(
                 id, 
-                new Domain.Entities.ShyneeProfile(
+                new ShyneeProfile(
                     profile.Nickname,
                     profile.AvatarUri,
                     profile.Name,

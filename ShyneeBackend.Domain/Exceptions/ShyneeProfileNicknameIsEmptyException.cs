@@ -8,5 +8,15 @@ namespace ShyneeBackend.Domain.Exceptions
         {
             
         }
+
+        public ShyneeProfileNicknameIsEmptyException(string message)
+        : base(message)
+        {
+        }
+
+        public ShyneeProfileNicknameIsEmptyException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
     }
 }

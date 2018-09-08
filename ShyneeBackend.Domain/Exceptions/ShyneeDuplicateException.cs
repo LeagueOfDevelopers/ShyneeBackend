@@ -6,7 +6,16 @@ namespace ShyneeBackend.Domain.Exceptions
     {
         public ShyneeDuplicateException() : base()
         {
+        }
 
+        public ShyneeDuplicateException(string message)
+        : base(message)
+        {
+        }
+
+        public ShyneeDuplicateException(string message, Exception inner)
+            : base(message, inner)
+        {
         }
     }
 }
