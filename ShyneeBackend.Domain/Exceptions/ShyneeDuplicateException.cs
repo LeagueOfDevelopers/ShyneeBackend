@@ -4,11 +4,7 @@ namespace ShyneeBackend.Domain.Exceptions
 {
     public class ShyneeDuplicateException : ApplicationException
     {
-        public ShyneeDuplicateException() : base()
-        {
-        }
-
-        public ShyneeDuplicateException(string message)
+        public ShyneeDuplicateException(string message = "Shynee already exists")
         : base(message)
         {
         }

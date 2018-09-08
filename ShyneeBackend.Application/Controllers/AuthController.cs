@@ -44,14 +44,9 @@ namespace ShyneeBackend.Application.Controllers
                 shynee.Gender,
                 shynee.Interests,
                 shynee.PersonalInfo);
-            var createdShyneeId = _shyneesService.CreateShynee(
+            var shyneeProfileWithCredentials = _shyneesService.CreateShynee(
                 shyneeCredentials,
                 shyneeProfile);
-            var createdShynee = _shyneesService.GetShynee(createdShyneeId);
-            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
-                createdShynee.Id,
-                createdShynee.Credentials,
-                createdShynee.Profile);
             return Ok(shyneeProfileWithCredentials);
         }
     }

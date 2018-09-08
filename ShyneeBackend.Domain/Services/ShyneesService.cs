@@ -25,11 +25,6 @@ namespace ShyneeBackend.Domain.Services
             _radiusAround = radiusAround;
         }
 
-        public Shynee GetShynee(Guid id)
-        {
-            return _shyneesRepository.GetShynee(id);
-        }
-
         public DTOs.ShyneeProfile GetShyneeProfile(Guid id)
         {
             var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
@@ -47,20 +42,20 @@ namespace ShyneeBackend.Domain.Services
 
         public DTOs.ShyneeProfile UpdateShyneeProfile(
             Guid id,
-            Entities.ShyneeProfile profileForEdit)
+            Entities.ShyneeProfile profile)
         {
             var shynee = _shyneesRepository.GetShynee(id);
-            shynee.UpdateProfile(profileForEdit);
+            shynee.UpdateProfile(profile);
             _shyneesRepository.UpdateShynee(shynee);
             return new DTOs.ShyneeProfile(
                 id,
-                profileForEdit.Nickname,
-                profileForEdit.AvatarUri,
-                profileForEdit.Name,
-                profileForEdit.Dob,
-                profileForEdit.Gender,
-                profileForEdit.Interests,
-                profileForEdit.PersonalInfo);
+                profile.Nickname,
+                profile.AvatarUri,
+                profile.Name,
+                profile.Dob,
+                profile.Gender,
+                profile.Interests,
+                profile.PersonalInfo);
         }
 
         public ShyneeProfilePublicData GetShyneePublicData(Guid id)
@@ -101,7 +96,7 @@ namespace ShyneeBackend.Domain.Services
             return shyneesAroundListInfos;
         }
 
-        public Guid CreateShynee(
+        public ShyneeProfileWithCredentials CreateShynee(
             ShyneeCredentials shyneeCredentials, 
             Entities.ShyneeProfile shyneeProfile)
         {
@@ -113,7 +108,12 @@ namespace ShyneeBackend.Domain.Services
                 shyneeProfile,
                 new ShyneeReadySettings());
             var id = _shyneesRepository.CreateShynee(shynee);
-            return id;
+            var createdShynee = _shyneesRepository.GetShynee(id);
+            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+                createdShynee.Id,
+                createdShynee.Credentials,
+                createdShynee.Profile);
+            return shyneeProfileWithCredentials;
         }
     }
 }

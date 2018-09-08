@@ -32,8 +32,8 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeProfile([FromRoute] Guid id)
         {
-            var shyneeProfileForEdit = _shyneesService.GetShyneeProfile(id);
-            return Ok(shyneeProfileForEdit);
+            var shyneeProfile = _shyneesService.GetShyneeProfile(id);
+            return Ok(shyneeProfile);
         }
 
         [HttpPost]
@@ -46,7 +46,7 @@ namespace ShyneeBackend.Application.Controllers
             [FromRoute] Guid id, 
             [FromBody] EditedShyneeProfile profile)
         {
-            var shyneeProfileForEdit = _shyneesService.UpdateShyneeProfile(
+            var shyneeProfile = _shyneesService.UpdateShyneeProfile(
                 id, 
                 new ShyneeProfile(
                     profile.Nickname,
@@ -56,7 +56,7 @@ namespace ShyneeBackend.Application.Controllers
                     profile.Gender,
                     profile.Interests,
                     profile.PersonalInfo));
-            return Ok(shyneeProfileForEdit);
+            return Ok(shyneeProfile);
         }
 
         /// <summary>
