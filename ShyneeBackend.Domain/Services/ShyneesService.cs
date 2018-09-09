@@ -3,6 +3,7 @@ using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
+using ShyneeBackend.Domain.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,14 @@ namespace ShyneeBackend.Domain.Services
     public class ShyneesService : IShyneesService
     {
         private readonly IShyneesRepository _shyneesRepository;
-        private readonly string _defaultShyneeNickname;
-        private readonly double _radiusAround;
+        private readonly ApplicationSettings _applicationSettings;
 
         public ShyneesService(
             IShyneesRepository shyneesRepository,
-            string defaultShyneeNickname,
-            double radiusAround)
+            ApplicationSettings applicationSettings)
         {
             _shyneesRepository = shyneesRepository;
-            _defaultShyneeNickname = defaultShyneeNickname;
-            _radiusAround = radiusAround;
+            _applicationSettings = applicationSettings;
         }
 
         public DTOs.ShyneeProfile GetShyneeProfile(Guid id)
@@ -85,7 +83,7 @@ namespace ShyneeBackend.Domain.Services
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
                 .Where(s => s.Coordinates.CalculateDistance(
                     shyneeCoordinates.Latitude,
-                    shyneeCoordinates.Longitude) <= _radiusAround)
+                    shyneeCoordinates.Longitude) <= _applicationSettings.RadiusAround)
                 .Select(s =>
                 {
                     var publicProfile = s.Profile.GeneratePublicShyneeProfile();
@@ -96,7 +94,13 @@ namespace ShyneeBackend.Domain.Services
             return shyneesAroundListInfos;
         }
 
-        public ShyneeProfileWithCredentials CreateShynee(
+        public Shynee GetShynee(Guid id)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            return shynee;
+        }
+
+        public Shynee CreateShynee(
             ShyneeCredentials shyneeCredentials, 
             Entities.ShyneeProfile shyneeProfile)
         {
@@ -109,11 +113,7 @@ namespace ShyneeBackend.Domain.Services
                 new ShyneeReadySettings());
             var id = _shyneesRepository.CreateShynee(shynee);
             var createdShynee = _shyneesRepository.GetShynee(id);
-            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
-                createdShynee.Id,
-                createdShynee.Credentials.Email,
-                createdShynee.Profile);
-            return shyneeProfileWithCredentials;
+            return createdShynee;
         }
     }
 }

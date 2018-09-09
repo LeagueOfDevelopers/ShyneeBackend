@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Application.Filters;
+using ShyneeBackend.Application.Jwt;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
@@ -7,18 +9,21 @@ using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Threading.Tasks;
+using ShyneeBackend.Application.Extensions;
 
 namespace ShyneeBackend.Application.Controllers
 {
     [Produces("application/json")]
-    [Route("shynees")]
     public class AuthController : Controller
     {
         private readonly IShyneesService _shyneesService;
+        private readonly IJwtIssuer _jwtIssuer;
 
         public AuthController(
-            IShyneesService shyneesService)
+            IShyneesService shyneesService,
+            IJwtIssuer jwtIssuer)
         {
+            _jwtIssuer = jwtIssuer;
             _shyneesService = shyneesService;
         }
 
@@ -28,7 +33,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="shynee">credentials and profile data</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("")]
+        [Route("shynees")]
         [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(409, Type = typeof(CreateShynee))]
@@ -47,9 +52,31 @@ namespace ShyneeBackend.Application.Controllers
                 shynee.Gender,
                 shynee.Interests,
                 shynee.PersonalInfo);
-            var shyneeProfileWithCredentials = _shyneesService.CreateShynee(
+            var createdShynee = _shyneesService.CreateShynee(
                 shyneeCredentials,
                 shyneeProfile);
+            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+                createdShynee.Id,
+                createdShynee.Credentials.Email,
+                _jwtIssuer.IssueJwt(createdShynee.Id),
+                createdShynee.Profile);
+            return Ok(shyneeProfileWithCredentials);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("refresh")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        public IActionResult RefreshToken()
+        {
+            var id = Request.GetUserId();
+            var shynee = _shyneesService.GetShynee(id);
+            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+                shynee.Id,
+                shynee.Credentials.Email,
+                _jwtIssuer.IssueJwt(shynee.Id),
+                shynee.Profile);
             return Ok(shyneeProfileWithCredentials);
         }
     }
