@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
-using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -29,7 +28,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="latitude">Shynee current latitude</param>
         /// <param name="longitude">Shynee current longitude</param>
         /// <returns>Shynees around list</returns>
-        [HttpGet]
+        [HttpPut]
         [Route("around")]
         [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundList>))]
         public async Task<IActionResult> GetShyneesAround(
@@ -39,6 +38,7 @@ namespace ShyneeBackend.Application.Controllers
             var shyneeCoordinates = new ShyneeCoordinates(latitude, longitude);
             var shyneesAroundList = _shyneesService
                 .GetShyneesAroundList(shyneeCoordinates);
+            // if user is logged in update coordinates
             return Ok(shyneesAroundList);
         }
 
@@ -54,15 +54,8 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)
         {
-            try
-            {
-                var shynee = _shyneesService.GetShyneePublicData(id);
-                return Ok(shynee);
-            }
-            catch (ShyneeNotFoundException ex)
-            {
-                return NotFound();
-            }
+            var shynee = _shyneesService.GetShyneePublicData(id);
+            return Ok(shynee);
         }
     }
 }

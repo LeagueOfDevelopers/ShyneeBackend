@@ -5,8 +5,8 @@ namespace ShyneeBackend.Domain.Entities
     public class ShyneeCoordinates
     {
         public ShyneeCoordinates(
-            double latitude, 
-            double longitude)
+            double latitude = 0, 
+            double longitude = 0)
         {
             Latitude = latitude;
             Longitude = longitude;

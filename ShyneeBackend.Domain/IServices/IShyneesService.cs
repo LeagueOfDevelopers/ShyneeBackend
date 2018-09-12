@@ -9,6 +9,10 @@ namespace ShyneeBackend.Domain.IServices
     {
         IEnumerable<ShyneesAroundList> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
 
+        Shynee CreateShynee(
+            ShyneeCredentials shyneeCredentials, 
+            Entities.ShyneeProfile shyneeProfile);
+
         Shynee GetShynee(Guid id);
 
         ShyneeProfilePublicData GetShyneePublicData(Guid id);
@@ -17,7 +21,7 @@ namespace ShyneeBackend.Domain.IServices
 
         DTOs.ShyneeProfile UpdateShyneeProfile(
             Guid id,
-            Entities.ShyneeProfile profileForEdit);
+            Entities.ShyneeProfile profile);
 
         ShyneeReadySettings GetShyneeReadySettings(Guid id);
 

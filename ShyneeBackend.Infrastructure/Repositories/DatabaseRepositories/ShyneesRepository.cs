@@ -7,6 +7,11 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
 {
     public class ShyneesRepository : IShyneesRepository
     {
+        public Guid CreateShynee(Shynee shynee)
+        {
+            throw new NotImplementedException();
+        }
+
         public Shynee GetShynee(Guid id)
         {
             throw new NotImplementedException();
@@ -18,6 +23,11 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
         }
 
         public IEnumerable<Shynee> GetShynees()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsShyneeExists(string email)
         {
             throw new NotImplementedException();
         }

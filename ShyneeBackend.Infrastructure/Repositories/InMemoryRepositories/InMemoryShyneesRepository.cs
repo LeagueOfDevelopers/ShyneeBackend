@@ -40,5 +40,16 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
         {
             return _shyneesStore;
         }
+
+        public bool IsShyneeExists(string email)
+        {
+            return _shyneesStore.Exists(s => s.Credentials.Email == email);
+        }
+
+        public Guid CreateShynee(Shynee shynee)
+        {
+            _shyneesStore.Add(shynee);
+            return shynee.Id;
+        }
     }
 }
