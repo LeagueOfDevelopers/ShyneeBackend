@@ -10,18 +10,18 @@ namespace ShyneeBackend.Domain.IServices
         IEnumerable<ShyneesAroundList> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
 
         Shynee CreateShynee(
-            ShyneeCredentials shyneeCredentials, 
-            Entities.ShyneeProfile shyneeProfile);
+            ShyneeCredentials shyneeCredentials,
+            ShyneeProfile shyneeProfile);
 
         Shynee GetShynee(Guid id);
 
         ShyneeProfilePublicData GetShyneePublicData(Guid id);
 
-        DTOs.ShyneeProfile GetShyneeProfile(Guid id);
+        ShyneeProfileInfo GetShyneeProfile(Guid id);
 
-        DTOs.ShyneeProfile UpdateShyneeProfile(
+        ShyneeProfileInfo UpdateShyneeProfile(
             Guid id,
-            Entities.ShyneeProfile profile);
+            ShyneeProfile profile);
 
         ShyneeReadySettings GetShyneeReadySettings(Guid id);
 

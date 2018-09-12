@@ -2,9 +2,9 @@
 
 namespace ShyneeBackend.Domain.DTOs
 {
-    public class ShyneeProfile
+    public class ShyneeProfileInfo
     {
-        public ShyneeProfile(
+        public ShyneeProfileInfo(
             Guid id,
             ShyneeProfileParameter<string> nickname, 
             ShyneeProfileParameter<Uri> avatarUri, 

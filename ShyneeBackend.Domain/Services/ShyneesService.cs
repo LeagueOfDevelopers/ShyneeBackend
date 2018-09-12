@@ -23,10 +23,10 @@ namespace ShyneeBackend.Domain.Services
             _applicationSettings = applicationSettings;
         }
 
-        public DTOs.ShyneeProfile GetShyneeProfile(Guid id)
+        public ShyneeProfileInfo GetShyneeProfile(Guid id)
         {
             var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
-            var shyneeProfileForEdit = new DTOs.ShyneeProfile(
+            var shyneeProfileForEdit = new ShyneeProfileInfo(
                 id,
                 shyneeProfile.Nickname,
                 shyneeProfile.AvatarUri,
@@ -38,14 +38,14 @@ namespace ShyneeBackend.Domain.Services
             return shyneeProfileForEdit;
         }
 
-        public DTOs.ShyneeProfile UpdateShyneeProfile(
+        public ShyneeProfileInfo UpdateShyneeProfile(
             Guid id,
-            Entities.ShyneeProfile profile)
+            ShyneeProfile profile)
         {
             var shynee = _shyneesRepository.GetShynee(id);
             shynee.UpdateProfile(profile);
             _shyneesRepository.UpdateShynee(shynee);
-            return new DTOs.ShyneeProfile(
+            return new ShyneeProfileInfo(
                 id,
                 profile.Nickname,
                 profile.AvatarUri,
@@ -101,8 +101,8 @@ namespace ShyneeBackend.Domain.Services
         }
 
         public Shynee CreateShynee(
-            ShyneeCredentials shyneeCredentials, 
-            Entities.ShyneeProfile shyneeProfile)
+            ShyneeCredentials shyneeCredentials,
+            ShyneeProfile shyneeProfile)
         {
             if (_shyneesRepository.IsShyneeExists(shyneeCredentials.Email))
                 throw new ShyneeDuplicateException();
