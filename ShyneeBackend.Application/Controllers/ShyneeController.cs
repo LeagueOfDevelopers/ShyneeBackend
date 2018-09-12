@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.RequestModels;
+using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -28,7 +29,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(Domain.DTOs.ShyneeProfile))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeProfile([FromRoute] Guid id)
         {
@@ -38,7 +39,7 @@ namespace ShyneeBackend.Application.Controllers
 
         [HttpPost]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(Domain.DTOs.ShyneeProfile))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         [ModelValidation]
