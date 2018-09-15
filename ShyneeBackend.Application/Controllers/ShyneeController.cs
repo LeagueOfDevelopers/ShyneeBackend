@@ -67,12 +67,43 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("settings")]
-        [SwaggerResponse(200, Type = typeof(ShyneeReadySettings))]
+        [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeSettingsForEdit([FromRoute] Guid id)
         {
             var shynee = _shyneesService.GetShyneeReadySettings(id);
-            return Ok(shynee);
+            var shyneeSettings = new ShyneeSettings(
+                id,
+                shynee);
+            return Ok(shyneeSettings);
+        }
+
+        /// <summary>
+        /// Updates shynee settings except I am ready status
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <param name="readySettings">Shynee ready settings except I am ready status</param>
+        /// <returns>Shynee id and all settings including I am ready status</returns>
+        [HttpPost]
+        [Route("settings")]
+        [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [ModelValidation]
+        public async Task<IActionResult> UpdateShyneeSettings(
+            [FromRoute] Guid id,
+            [FromBody] EditedShyneeReadySettings readySettings)
+        {
+            var shyneeReadySettings = _shyneesService.UpdateShyneeSettings(
+                id,
+                new ShyneeReadySettings(
+                    readySettings.BackgroundModeIsEnabled,
+                    readySettings.MetroModeIsEnabled,
+                    readySettings.PushNotificationsAreEnabled,
+                    readySettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                    readySettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                    readySettings.PushNotificationOnNewAcquaintanceIsEnabled));
+            return Ok(shyneeReadySettings);
         }
 
         /// <summary>

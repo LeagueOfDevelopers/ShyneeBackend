@@ -72,7 +72,7 @@ namespace ShyneeBackend.Domain.Services
         public bool ChangeShyneeReadySetting(Guid id, bool isReady)
         {
             var shynee = _shyneesRepository.GetShynee(id);
-            shynee.ReadySettings.IsReady = isReady;
+            shynee.ReadySettings.UpdateIsReadySetting(isReady);
             var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
             return updatedShynee.ReadySettings.IsReady;
         }
@@ -114,6 +114,25 @@ namespace ShyneeBackend.Domain.Services
             var id = _shyneesRepository.CreateShynee(shynee);
             var createdShynee = _shyneesRepository.GetShynee(id);
             return createdShynee;
+        }
+
+        public ShyneeSettings UpdateShyneeSettings(
+            Guid id, 
+            ShyneeReadySettings readySettings)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            var readySettingsToUpdate = new ShyneeReadySettings(
+                shynee.ReadySettings.IsReady,
+                readySettings.BackgroundModeIsEnabled,
+                readySettings.MetroModeIsEnabled,
+                readySettings.PushNotificationsAreEnabled,
+                readySettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                readySettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                readySettings.PushNotificationOnNewAcquaintanceIsEnabled);
+            shynee.UpdateReadySettings(readySettingsToUpdate);
+            var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
+            var shyneeSettings = new ShyneeSettings(id, updatedShynee.ReadySettings);
+            return shyneeSettings;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace ShyneeBackend.Application.Controllers
             var shyneeCredentials = new ShyneeCredentials(
                 shynee.Email, 
                 Hasher.HashPassword(shynee.Password));
-            var shyneeProfile = new Domain.Entities.ShyneeProfile(
+            var shyneeProfile = new ShyneeProfile(
                 shynee.Nickname,
                 shynee.AvatarUri,
                 shynee.Name,

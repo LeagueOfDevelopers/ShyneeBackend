@@ -35,15 +35,25 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeCredentials Credentials { get; }
 
-        public ShyneeCoordinates Coordinates { get; }
+        public ShyneeCoordinates Coordinates { get; private set; }
 
         public ShyneeProfile Profile { get; private set; }
 
-        public ShyneeReadySettings ReadySettings { get; }
+        public ShyneeReadySettings ReadySettings { get; private set; }
 
         public void UpdateProfile(ShyneeProfile profile)
         {
             Profile = profile;
+        }
+
+        public void UpdateCoordinates(ShyneeCoordinates coordinates)
+        {
+            Coordinates = coordinates;
+        }
+
+        public void UpdateReadySettings(ShyneeReadySettings readySettings)
+        {
+            ReadySettings = readySettings;
         }
     }
 }
