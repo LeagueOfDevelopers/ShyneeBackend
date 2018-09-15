@@ -11,6 +11,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Threading.Tasks;
 using ShyneeBackend.Application.Extensions;
 using ShyneeBackend.Domain.Exceptions;
+using ShyneeBackend.Domain.Settings;
+using ShyneeBackend.Domain;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -67,6 +69,7 @@ namespace ShyneeBackend.Application.Controllers
         [Route("login")]
         [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(InvalidPasswordException))]
         [SwaggerResponse(404, Type = typeof(ShyneeNotFoundException))]
         [SwaggerResponse(409, Type = typeof(CreateShynee))]
         [ModelValidation]

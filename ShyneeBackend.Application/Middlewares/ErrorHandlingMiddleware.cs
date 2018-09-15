@@ -35,6 +35,7 @@ namespace ShyneeBackend.Application.Middlewares
             if (exception is ShyneeNotFoundException) code = HttpStatusCode.NotFound;
             if (exception is ShyneeDuplicateException) code = HttpStatusCode.Conflict;
             if (exception is ShyneeProfileNicknameIsEmptyException) code = HttpStatusCode.BadRequest;
+            if (exception is InvalidPasswordException) code = HttpStatusCode.Unauthorized;
 
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
             context.Response.ContentType = "application/json";

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
@@ -28,6 +29,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Route("profile")]
         [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
@@ -37,7 +39,8 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeProfile);
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Authorize]
         [Route("profile")]
         [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
@@ -66,6 +69,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Route("settings")]
         [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
@@ -84,7 +88,8 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <param name="readySettings">Shynee ready settings except I am ready status</param>
         /// <returns>Shynee id and all settings including I am ready status</returns>
-        [HttpPost]
+        [HttpPut]
+        [Authorize]
         [Route("settings")]
         [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
@@ -112,7 +117,8 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <param name="isReady">I am ready status</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
+        [Authorize]
         [Route("ready/{isReady}")]
         [SwaggerResponse(200, Type = typeof(bool))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]

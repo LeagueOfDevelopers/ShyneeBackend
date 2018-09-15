@@ -9,7 +9,7 @@ namespace ShyneeBackend.Domain.Entities
         private const string _defaultNickname = "Stranger";
 
         public ShyneeProfile(
-            ShyneeProfileParameter<string> nickname,
+            ShyneeProfileParameter<string> nickname = null,
             ShyneeProfileParameter<Uri> avatarUri = null, 
             ShyneeProfileParameter<string> name = null, 
             ShyneeProfileParameter<DateTime> dob = null, 
@@ -17,10 +17,12 @@ namespace ShyneeBackend.Domain.Entities
             ShyneeProfileParameter<string[]> interests = null, 
             ShyneeProfileParameter<string> personalInfo = null)
         {
-            if (nickname.Status == ShyneeProfileParameterStatus.Empty)
-                throw new ShyneeProfileNicknameIsEmptyException();
+            Nickname = nickname ?? new ShyneeProfileParameter<string>(
+                ShyneeProfileParameterStatus.Hidden,
+                _defaultNickname);
 
-            Nickname = nickname;
+            if (Nickname.Status == ShyneeProfileParameterStatus.Empty)
+                throw new ShyneeProfileNicknameIsEmptyException();
 
             AvatarUri = avatarUri ?? new ShyneeProfileParameter<Uri>(); 
             Name = name ?? new ShyneeProfileParameter<string>();

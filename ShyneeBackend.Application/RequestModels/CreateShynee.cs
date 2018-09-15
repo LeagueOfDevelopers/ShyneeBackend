@@ -14,7 +14,6 @@ namespace ShyneeBackend.Application.RequestModels
         [MinLength(8)]
         public string Password { get; set; }
 
-        [Required]
         public ShyneeProfileParameter<string> Nickname { get; set; }
 
         public ShyneeProfileParameter<Uri> AvatarUri { get; set; }
