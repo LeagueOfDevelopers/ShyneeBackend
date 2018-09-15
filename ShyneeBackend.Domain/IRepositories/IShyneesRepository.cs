@@ -17,5 +17,7 @@ namespace ShyneeBackend.Domain.IRepositories
         bool IsShyneeExists(string email);
 
         Guid CreateShynee(Shynee shynee);
+
+        Shynee FindShyneeByCredentials(ShyneeCredentials credentials);
     }
 }

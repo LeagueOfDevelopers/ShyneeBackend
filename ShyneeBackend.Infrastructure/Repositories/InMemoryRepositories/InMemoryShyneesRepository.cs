@@ -12,6 +12,11 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
     {
         private static readonly List<Shynee> _shyneesStore;
 
+        private bool IsPasswordValid(string shyneeHash, string password)
+        {
+            return Hasher.VerifyPassword(shyneeHash, password);
+        }
+
         static InMemoryShyneesRepository()
         {
             _shyneesStore = ShyneesDataFaker.GenerateShynees();
@@ -50,6 +55,17 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
         {
             _shyneesStore.Add(shynee);
             return shynee.Id;
+        }
+
+        public Shynee FindShyneeByCredentials(ShyneeCredentials credentials)
+        {
+            if (!IsShyneeExists(credentials.Email))
+                throw new ShyneeNotFoundException();
+            var shynee = _shyneesStore.Single(s => s.Credentials.Email == credentials.Email);
+            var shyneeHash = shynee.Credentials.Password;
+            if (!IsPasswordValid(shyneeHash, credentials.Password))
+                throw new InvalidPasswordException();
+            return shynee;
         }
     }
 }

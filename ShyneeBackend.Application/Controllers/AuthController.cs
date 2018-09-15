@@ -10,6 +10,7 @@ using ShyneeBackend.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Threading.Tasks;
 using ShyneeBackend.Application.Extensions;
+using ShyneeBackend.Domain.Exceptions;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -60,6 +61,27 @@ namespace ShyneeBackend.Application.Controllers
                 createdShynee.Credentials.Email,
                 _jwtIssuer.IssueJwt(createdShynee.Id),
                 createdShynee.Profile);
+            return Ok(shyneeProfileWithCredentials);
+        }
+
+        [Route("login")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(404, Type = typeof(ShyneeNotFoundException))]
+        [SwaggerResponse(409, Type = typeof(CreateShynee))]
+        [ModelValidation]
+        public async Task<IActionResult> Login(
+            [FromBody] LoginShynee loginShynee)
+        {
+            var shyneeCredentials = new ShyneeCredentials(
+                loginShynee.Email,
+                loginShynee.Password);
+            var shynee = _shyneesService.FindShyneeByCredentials(shyneeCredentials);
+            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+                shynee.Id,
+                shynee.Credentials.Email,
+                _jwtIssuer.IssueJwt(shynee.Id),
+                shynee.Profile);
             return Ok(shyneeProfileWithCredentials);
         }
 

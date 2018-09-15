@@ -28,5 +28,7 @@ namespace ShyneeBackend.Domain.IServices
         ShyneeSettings UpdateShyneeSettings(Guid id, ShyneeReadySettings shyneeReadySettings);
 
         bool ChangeShyneeReadySetting(Guid id, bool isReady);
+
+        Shynee FindShyneeByCredentials(ShyneeCredentials credentials);
     }
 }

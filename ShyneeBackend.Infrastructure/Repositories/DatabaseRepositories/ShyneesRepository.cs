@@ -12,6 +12,11 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
             throw new NotImplementedException();
         }
 
+        public Shynee FindShyneeByCredentials(ShyneeCredentials credentials)
+        {
+            throw new NotImplementedException();
+        }
+
         public Shynee GetShynee(Guid id)
         {
             throw new NotImplementedException();

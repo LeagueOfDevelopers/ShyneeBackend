@@ -134,5 +134,11 @@ namespace ShyneeBackend.Domain.Services
             var shyneeSettings = new ShyneeSettings(id, updatedShynee.ReadySettings);
             return shyneeSettings;
         }
+
+        public Shynee FindShyneeByCredentials(ShyneeCredentials credentials)
+        {
+            var shynee = _shyneesRepository.FindShyneeByCredentials(credentials);
+            return shynee;
+        }
     }
 }
