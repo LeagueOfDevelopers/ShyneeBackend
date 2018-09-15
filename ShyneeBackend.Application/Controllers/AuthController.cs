@@ -41,10 +41,50 @@ namespace ShyneeBackend.Application.Controllers
         public async Task<IActionResult> CreateShynee(
             [FromBody] CreateShynee shynee)
         {
+<<<<<<< Updated upstream
             var shyneeCredentials = new ShyneeCredentials(
                 shynee.Email, 
                 Hasher.HashPassword(shynee.Password));
             var shyneeProfile = new Domain.Entities.ShyneeProfile(
+=======
+<<<<<<< Updated upstream
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                var shyneeCredentials = new ShyneeCredentials(shynee.Email, shynee.Password);
+                var shyneeProfile = new Domain.Entities.ShyneeProfile(
+                    shynee.Nickname,
+                    shynee.AvatarUri,
+                    shynee.Name,
+                    shynee.Dob,
+                    shynee.Gender,
+                    shynee.Interests,
+                    shynee.PersonalInfo);
+                var createdShyneeId = _shyneesService.CreateShynee(
+                    shyneeCredentials,
+                    shyneeProfile);
+                var createdShynee = _shyneesService.GetShynee(createdShyneeId);
+                var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+                    createdShynee.Id,
+                    createdShynee.Credentials,
+                    createdShynee.Profile);
+                return Ok(shyneeProfileWithCredentials);
+            }
+            catch (ShyneeProfileNicknameIsEmptyException ex)
+            {
+                return BadRequest(ModelState);
+            }
+            catch (ShyneeDuplicateException ex)
+            {
+                return StatusCode(409, shynee);
+            }
+=======
+            var shyneeCredentials = new ShyneeCredentials(
+                shynee.Email, 
+                Hasher.HashPassword(shynee.Password));
+            var shyneeProfile = new ShyneeProfile(
+>>>>>>> Stashed changes
                 shynee.Nickname,
                 shynee.AvatarUri,
                 shynee.Name,
@@ -78,6 +118,10 @@ namespace ShyneeBackend.Application.Controllers
                 _jwtIssuer.IssueJwt(shynee.Id),
                 shynee.Profile);
             return Ok(shyneeProfileWithCredentials);
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         }
     }
 }

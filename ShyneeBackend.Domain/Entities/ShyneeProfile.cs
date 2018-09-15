@@ -10,23 +10,24 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfile(
             ShyneeProfileParameter<string> nickname,
-            ShyneeProfileParameter<Uri> avatarUri, 
-            ShyneeProfileParameter<string> name, 
-            ShyneeProfileParameter<DateTime> dob, 
-            ShyneeProfileParameter<Gender> gender, 
-            ShyneeProfileParameter<string[]> interests, 
-            ShyneeProfileParameter<string> personalInfo)
+            ShyneeProfileParameter<Uri> avatarUri = null, 
+            ShyneeProfileParameter<string> name = null, 
+            ShyneeProfileParameter<DateTime> dob = null, 
+            ShyneeProfileParameter<Gender> gender = null, 
+            ShyneeProfileParameter<string[]> interests = null, 
+            ShyneeProfileParameter<string> personalInfo = null)
         {
             if (nickname.Status == ShyneeProfileParameterStatus.Empty)
                 throw new ShyneeProfileNicknameIsEmptyException();
 
             Nickname = nickname;
-            AvatarUri = avatarUri;
-            Name = name;
-            Dob = dob;
-            Gender = gender;
-            Interests = interests;
-            PersonalInfo = personalInfo;
+
+            AvatarUri = avatarUri ?? new ShyneeProfileParameter<Uri>(); 
+            Name = name ?? new ShyneeProfileParameter<string>();
+            Dob = dob ?? new ShyneeProfileParameter<DateTime>();
+            Gender = gender ?? new ShyneeProfileParameter<Gender>();
+            Interests = interests ?? new ShyneeProfileParameter<string[]>();
+            PersonalInfo = personalInfo ?? new ShyneeProfileParameter<string>();
         }
 
         public ShyneeProfileParameter<string> Nickname { get; }
