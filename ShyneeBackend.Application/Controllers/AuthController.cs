@@ -73,6 +73,7 @@ namespace ShyneeBackend.Application.Controllers
         }
 
         [Route("login")]
+        [HttpPost]
         [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(InvalidPasswordException))]
