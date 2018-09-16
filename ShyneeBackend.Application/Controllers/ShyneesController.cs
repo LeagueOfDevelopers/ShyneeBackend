@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
 using ShyneeBackend.Domain.IServices;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace ShyneeBackend.Application.Controllers
 {
     [Produces("application/json")]
-    [Route("shynees/")]
+    [Route("shynees")]
     public class ShyneesController : Controller
     {
         private readonly IShyneesService _shyneesService;
@@ -25,17 +26,17 @@ namespace ShyneeBackend.Application.Controllers
         /// Return all shynees with enabled ready status
         /// within a radius of five hundred meters
         /// </summary>
-        /// <param name="latitude">Shynee current latitude</param>
-        /// <param name="longitude">Shynee current longitude</param>
+        /// <param name="coordinates">Shynee current latitude and longitude</param>
         /// <returns>Shynees around list</returns>
         [HttpPut]
         [Route("around")]
-        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundList>))]
+        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneeAroundDto>))]
         public async Task<IActionResult> GetShyneesAround(
-            [FromQuery(Name = "latitude")] double latitude,
-            [FromQuery(Name = "longitude")] double longitude)
+            [FromBody] Coordinates coordinates)
         {
-            var shyneeCoordinates = new ShyneeCoordinates(latitude, longitude);
+            var shyneeCoordinates = new ShyneeCoordinates(
+                coordinates.Latitude, 
+                coordinates.Longitude);
             var shyneesAroundList = _shyneesService
                 .GetShyneesAroundList(shyneeCoordinates);
             // if user is logged in update coordinates
@@ -49,7 +50,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id:guid}")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfilePublicData))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)

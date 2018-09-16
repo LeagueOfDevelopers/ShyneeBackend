@@ -5,12 +5,12 @@ namespace ShyneeBackend.Domain.DTOs
     /// <summary>
     /// Shynee info for shynee around screen
     /// </summary>
-    public class ShyneesAroundList
+    public class ShyneeAroundDto
     {
-        public ShyneesAroundList(
+        public ShyneeAroundDto(
             Guid id,
             string nickname,
-            string avatarUri)
+            Uri avatarUri)
         {
             Id = id;
             Nickname = nickname;
@@ -21,6 +21,6 @@ namespace ShyneeBackend.Domain.DTOs
 
         public string Nickname { get; }
 
-        public string AvatarUri { get; }
+        public Uri AvatarUri { get; }
     }
 }

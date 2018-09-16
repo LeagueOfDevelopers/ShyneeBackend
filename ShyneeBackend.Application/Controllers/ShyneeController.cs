@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -28,8 +30,9 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeProfile([FromRoute] Guid id)
         {
@@ -37,9 +40,10 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeProfile);
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Authorize]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         [ModelValidation]
@@ -60,19 +64,95 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeProfile);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("profile/privacy")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileFieldsPrivacyDto))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [SwaggerResponse(409, Type = typeof(NullParameterValueWhileStatusIsNotEmptyException))]
+        [ModelValidation]
+        public async Task<IActionResult> GetShyneeProfileFieldsPrivacy(
+            [FromRoute] Guid id)
+        {
+            var shyneeProfileFieldsPrivacy = _shyneesService.GetShyneeProfileFieldsPrivacy(id);
+            return Ok(shyneeProfileFieldsPrivacy);
+        }
+
+        /// <summary>
+        /// Accepts fields privacy modificators and applies them
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <param name="fieldsPrivacy">Parameter privacy modificators</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize]
+        [Route("profile/privacy")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileFieldsPrivacyDto))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [SwaggerResponse(409, Type = typeof(NullParameterValueWhileStatusIsNotEmptyException))]
+        [ModelValidation]
+        public async Task<IActionResult> UpdateShyneeProfileFieldsPrivacy(
+            [FromRoute] Guid id,
+            [FromBody] ShyneeProfileFieldsPrivacy fieldsPrivacy)
+        {
+            var shyneeProfileFieldsPrivacy = _shyneesService.UpdateShyneeProfileFieldsPrivacy(
+                id,
+                new ShyneeProfileFieldsPrivacyDto(
+                    fieldsPrivacy.Nickname,
+                    fieldsPrivacy.AvatarUri,
+                    fieldsPrivacy.Name,
+                    fieldsPrivacy.Dob,
+                    fieldsPrivacy.Gender,
+                    fieldsPrivacy.Interests,
+                    fieldsPrivacy.PersonalInfo));
+            return Ok(shyneeProfileFieldsPrivacy);
+        }
+
         /// <summary>
         /// Returns shynee settings
         /// </summary>
         /// <param name="id">Shynee id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [Route("settings")]
-        [SwaggerResponse(200, Type = typeof(ShyneeReadySettings))]
+        [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeSettingsForEdit([FromRoute] Guid id)
         {
-            var shynee = _shyneesService.GetShyneeReadySettings(id);
-            return Ok(shynee);
+            var shyneeSettings = _shyneesService.GetShyneeSettings(id);
+            return Ok(shyneeSettings);
+        }
+
+        /// <summary>
+        /// Updates shynee settings except I am ready status
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <param name="readySettings">Shynee ready settings except I am ready status</param>
+        /// <returns>Shynee id and all settings including I am ready status</returns>
+        [HttpPut]
+        [Authorize]
+        [Route("settings")]
+        [SwaggerResponse(200, Type = typeof(ShyneeSettings))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [ModelValidation]
+        public async Task<IActionResult> UpdateShyneeSettings(
+            [FromRoute] Guid id,
+            [FromBody] EditedShyneeSettings readySettings)
+        {
+            var shyneeSettings = _shyneesService.UpdateShyneeSettings(
+                id,
+                new ShyneeSettings(
+                    readySettings.BackgroundModeIsEnabled,
+                    readySettings.MetroModeIsEnabled,
+                    readySettings.PushNotificationsAreEnabled,
+                    readySettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                    readySettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                    readySettings.PushNotificationOnNewAcquaintanceIsEnabled));
+            return Ok(shyneeSettings);
         }
 
         /// <summary>
@@ -81,7 +161,8 @@ namespace ShyneeBackend.Application.Controllers
         /// <param name="id">Shynee id</param>
         /// <param name="isReady">I am ready status</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
+        [Authorize]
         [Route("ready/{isReady}")]
         [SwaggerResponse(200, Type = typeof(bool))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]

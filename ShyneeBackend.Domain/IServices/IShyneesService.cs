@@ -7,24 +7,44 @@ namespace ShyneeBackend.Domain.IServices
 {
     public interface IShyneesService
     {
-        IEnumerable<ShyneesAroundList> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
+        IEnumerable<ShyneeAroundDto> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
 
         Shynee CreateShynee(
             ShyneeCredentials shyneeCredentials,
             ShyneeProfile shyneeProfile);
 
-        Shynee GetShynee(Guid id);
+        Shynee GetShynee(
+            Guid id);
 
-        ShyneeProfilePublicData GetShyneePublicData(Guid id);
+        ShyneeProfileDto GetShyneePublicData(
+            Guid id);
 
-        ShyneeProfileInfo GetShyneeProfile(Guid id);
+        ShyneeProfileDto GetShyneeProfile(
+            Guid id);
 
-        ShyneeProfileInfo UpdateShyneeProfile(
+        ShyneeProfileDto UpdateShyneeProfile(
             Guid id,
             ShyneeProfile profile);
 
-        ShyneeReadySettings GetShyneeReadySettings(Guid id);
+        ShyneeProfileFieldsPrivacyDto GetShyneeProfileFieldsPrivacy(
+            Guid id);
 
-        bool ChangeShyneeReadySetting(Guid id, bool isReady);
+        ShyneeProfileFieldsPrivacyDto UpdateShyneeProfileFieldsPrivacy(
+            Guid id,
+            ShyneeProfileFieldsPrivacyDto fieldsPrivacy);
+
+        ShyneeSettingsDto GetShyneeSettings(
+            Guid id);
+
+        ShyneeSettingsDto UpdateShyneeSettings(
+            Guid id, 
+            ShyneeSettings ShyneeSettings);
+
+        ShyneeIsReadySettingDto ChangeShyneeReadySetting(
+            Guid id, 
+            bool isReady);
+
+        Shynee FindShyneeByCredentials(
+            ShyneeCredentials credentials);
     }
 }

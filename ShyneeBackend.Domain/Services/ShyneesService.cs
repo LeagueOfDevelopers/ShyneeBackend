@@ -23,61 +23,69 @@ namespace ShyneeBackend.Domain.Services
             _applicationSettings = applicationSettings;
         }
 
-        public ShyneeProfileInfo GetShyneeProfile(Guid id)
+        public ShyneeProfileDto GetShyneeProfile(Guid id)
         {
             var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
-            var shyneeProfileForEdit = new ShyneeProfileInfo(
-                id,
-                shyneeProfile.Nickname,
-                shyneeProfile.AvatarUri,
-                shyneeProfile.Name,
-                shyneeProfile.Dob,
-                shyneeProfile.Gender,
-                shyneeProfile.Interests,
-                shyneeProfile.PersonalInfo);
-            return shyneeProfileForEdit;
+            var shyneeProfileDto = new ShyneeProfileDto(
+                shyneeProfile.Nickname.Parameter,
+                shyneeProfile.AvatarUri.Parameter,
+                shyneeProfile.Name.Parameter,
+                shyneeProfile.Dob.Parameter,
+                shyneeProfile.Gender.Parameter,
+                shyneeProfile.Interests.Parameter,
+                shyneeProfile.PersonalInfo.Parameter);
+            return shyneeProfileDto;
         }
 
-        public ShyneeProfileInfo UpdateShyneeProfile(
+        public ShyneeProfileDto UpdateShyneeProfile(
             Guid id,
             ShyneeProfile profile)
         {
             var shynee = _shyneesRepository.GetShynee(id);
             shynee.UpdateProfile(profile);
             _shyneesRepository.UpdateShynee(shynee);
-            return new ShyneeProfileInfo(
-                id,
-                profile.Nickname,
-                profile.AvatarUri,
-                profile.Name,
-                profile.Dob,
-                profile.Gender,
-                profile.Interests,
-                profile.PersonalInfo);
+            return new ShyneeProfileDto(
+                profile.Nickname.Parameter,
+                profile.AvatarUri.Parameter,
+                profile.Name.Parameter,
+                profile.Dob.Parameter,
+                profile.Gender.Parameter,
+                profile.Interests.Parameter,
+                profile.PersonalInfo.Parameter);
         }
 
-        public ShyneeProfilePublicData GetShyneePublicData(Guid id)
+        public ShyneeProfileDto GetShyneePublicData(Guid id)
         {
             var shyneeProfile = _shyneesRepository.GetShynee(id).Profile;
-            var shyneeProfilePublicData = shyneeProfile.GeneratePublicShyneeProfile();
-            return shyneeProfilePublicData;
+            var shyneeProfileDto = shyneeProfile.GeneratePublicShyneeProfile();
+            return shyneeProfileDto;
         }
 
-        public ShyneeReadySettings GetShyneeReadySettings(Guid id)
-        {
-            var shyneeReadySettings = _shyneesRepository.GetShynee(id).ReadySettings;
-            return shyneeReadySettings;
-        }
-
-        public bool ChangeShyneeReadySetting(Guid id, bool isReady)
+        public ShyneeSettingsDto GetShyneeSettings(Guid id)
         {
             var shynee = _shyneesRepository.GetShynee(id);
-            shynee.ReadySettings.IsReady = isReady;
-            var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
-            return updatedShynee.ReadySettings.IsReady;
+            var shyneeSettings = shynee.Settings;
+            var settings = new ShyneeSettingsDto(
+                shyneeSettings.BackgroundModeIsEnabled,
+                shyneeSettings.MetroModeIsEnabled,
+                shyneeSettings.PushNotificationsAreEnabled,
+                shyneeSettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                shyneeSettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                shyneeSettings.PushNotificationOnNewAcquaintanceIsEnabled);
+            return settings;
         }
 
-        public IEnumerable<ShyneesAroundList> GetShyneesAroundList(
+        public ShyneeIsReadySettingDto ChangeShyneeReadySetting(Guid id, bool isReady)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            shynee.Settings.UpdateIsReadySetting(isReady);
+            var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
+            var shyneeIsReady = new ShyneeIsReadySettingDto(
+                updatedShynee.Settings.IsReady);
+            return shyneeIsReady;
+        }
+
+        public IEnumerable<ShyneeAroundDto> GetShyneesAroundList(
             ShyneeCoordinates shyneeCoordinates)
         {
             var shyneesAroundListInfos = _shyneesRepository.GetShynees()
@@ -87,7 +95,7 @@ namespace ShyneeBackend.Domain.Services
                 .Select(s =>
                 {
                     var publicProfile = s.Profile.GeneratePublicShyneeProfile();
-                    return new ShyneesAroundList(s.Id,
+                    return new ShyneeAroundDto(s.Id,
                         publicProfile.Nickname,
                         publicProfile.AvatarUri);
                 });
@@ -110,10 +118,84 @@ namespace ShyneeBackend.Domain.Services
                 shyneeCredentials,
                 new ShyneeCoordinates(),
                 shyneeProfile,
-                new ShyneeReadySettings());
+                new ShyneeSettings());
             var id = _shyneesRepository.CreateShynee(shynee);
             var createdShynee = _shyneesRepository.GetShynee(id);
             return createdShynee;
+        }
+
+        public ShyneeSettingsDto UpdateShyneeSettings(
+            Guid id, 
+            ShyneeSettings settings)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            var settingsToUpdate = new ShyneeSettings(
+                shynee.Settings.IsReady,
+                settings.BackgroundModeIsEnabled,
+                settings.MetroModeIsEnabled,
+                settings.PushNotificationsAreEnabled,
+                settings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                settings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                settings.PushNotificationOnNewAcquaintanceIsEnabled);
+            shynee.UpdateSettings(settingsToUpdate);
+            var updatedShynee = _shyneesRepository.UpdateShynee(shynee);
+            var updatedSettings = updatedShynee.Settings;
+            var shyneeSettings = new ShyneeSettingsDto(
+                updatedSettings.BackgroundModeIsEnabled,
+                updatedSettings.MetroModeIsEnabled,
+                updatedSettings.PushNotificationsAreEnabled,
+                updatedSettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
+                updatedSettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
+                updatedSettings.PushNotificationOnNewAcquaintanceIsEnabled);
+            return shyneeSettings;
+        }
+
+        public Shynee FindShyneeByCredentials(ShyneeCredentials credentials)
+        {
+            var shynee = _shyneesRepository.FindShyneeByCredentials(credentials);
+            return shynee;
+        }
+
+        public ShyneeProfileFieldsPrivacyDto UpdateShyneeProfileFieldsPrivacy(
+            Guid id, 
+            ShyneeProfileFieldsPrivacyDto fieldsPrivacy)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            var shyneeProfile = shynee.Profile;
+            var shyneeProfileToUpdate = new ShyneeProfile(
+                new ShyneeProfileParameter<string>(
+                    fieldsPrivacy.Nickname,
+                    shyneeProfile.Nickname.Parameter),
+                new ShyneeProfileParameter<Uri>(
+                    fieldsPrivacy.AvatarUri,
+                    shyneeProfile.AvatarUri.Parameter),
+                new ShyneeProfileParameter<string>(
+                    fieldsPrivacy.Name,
+                    shyneeProfile.Name.Parameter),
+                new ShyneeProfileParameter<DateTime>(
+                    fieldsPrivacy.Dob,
+                    shyneeProfile.Dob.Parameter),
+                new ShyneeProfileParameter<Gender>(
+                    fieldsPrivacy.Gender,
+                    shyneeProfile.Gender.Parameter),
+                new ShyneeProfileParameter<string[]>(
+                    fieldsPrivacy.Interests,
+                    shyneeProfile.Interests.Parameter),
+                new ShyneeProfileParameter<string>(
+                    fieldsPrivacy.PersonalInfo,
+                    shyneeProfile.PersonalInfo.Parameter));
+            shynee.UpdateProfile(shyneeProfileToUpdate);
+            _shyneesRepository.UpdateShynee(shynee);
+            return fieldsPrivacy;
+        }
+
+        public ShyneeProfileFieldsPrivacyDto GetShyneeProfileFieldsPrivacy(
+            Guid id)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            var shyneeProfileFieldsPrivacyDto = shynee.Profile
+                .GenerateProfileFieldsBoolValues();
+            return shyneeProfileFieldsPrivacyDto;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ShyneeBackend.Application.Middlewares
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context /* other dependencies */)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
@@ -28,13 +28,22 @@ namespace ShyneeBackend.Application.Middlewares
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(
+            HttpContext context, 
+            Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
 
-            if (exception is ShyneeNotFoundException) code = HttpStatusCode.NotFound;
-            if (exception is ShyneeDuplicateException) code = HttpStatusCode.Conflict;
-            if (exception is ShyneeProfileNicknameIsEmptyException) code = HttpStatusCode.BadRequest;
+            if (exception is ShyneeNotFoundException) code = 
+                    HttpStatusCode.NotFound;
+            if (exception is ShyneeDuplicateException) code = 
+                    HttpStatusCode.Conflict;
+            if (exception is ShyneeProfileNicknameIsEmptyException) code = 
+                    HttpStatusCode.BadRequest;
+            if (exception is NullParameterValueWhileStatusIsNotEmptyException) code = 
+                    HttpStatusCode.Conflict;
+            if (exception is InvalidPasswordException) code = 
+                    HttpStatusCode.Unauthorized;
 
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
             context.Response.ContentType = "application/json";

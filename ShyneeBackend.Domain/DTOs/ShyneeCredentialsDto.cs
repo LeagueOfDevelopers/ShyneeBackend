@@ -2,13 +2,13 @@
 
 namespace ShyneeBackend.Domain.DTOs
 {
-    public class ShyneeProfileWithCredentials
+    public class ShyneeCredentialsDto
     {
-        public ShyneeProfileWithCredentials(
+        public ShyneeCredentialsDto(
             Guid id,
             string email,
             string token,
-            Entities.ShyneeProfile profile)
+            ShyneeProfileDto profile)
         {
             Id = id;
             Email = email;
@@ -22,6 +22,6 @@ namespace ShyneeBackend.Domain.DTOs
 
         public string Token { get; }
 
-        public Entities.ShyneeProfile Profile { get; }
+        ShyneeProfileDto Profile { get; }
     }
 }
