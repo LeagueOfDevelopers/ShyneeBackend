@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShyneeBackend.Application.Extensions;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
@@ -39,7 +40,11 @@ namespace ShyneeBackend.Application.Controllers
                 coordinates.Longitude);
             var shyneesAroundList = _shyneesService
                 .GetShyneesAroundList(shyneeCoordinates);
-            // if user is logged in update coordinates
+            if (Request.IsUserAuthorized())
+            {
+                var id = Request.GetUserId();
+                _shyneesService.UpdateShyneeCoordinates(id, shyneeCoordinates);
+            }
             return Ok(shyneesAroundList);
         }
 

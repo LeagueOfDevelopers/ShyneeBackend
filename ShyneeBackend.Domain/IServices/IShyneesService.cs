@@ -19,6 +19,10 @@ namespace ShyneeBackend.Domain.IServices
         ShyneeProfileDto GetShyneePublicData(
             Guid id);
 
+        void UpdateShyneeCoordinates(
+            Guid id,
+            ShyneeCoordinates coordinates);
+
         ShyneeProfileDto GetShyneeProfile(
             Guid id);
 

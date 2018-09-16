@@ -197,5 +197,14 @@ namespace ShyneeBackend.Domain.Services
                 .GenerateProfileFieldsBoolValues();
             return shyneeProfileFieldsPrivacyDto;
         }
+
+        public void UpdateShyneeCoordinates(
+            Guid id, 
+            ShyneeCoordinates coordinates)
+        {
+            var shynee = _shyneesRepository.GetShynee(id);
+            shynee.UpdateCoordinates(coordinates);
+            _shyneesRepository.UpdateShynee(shynee);
+        }
     }
 }
