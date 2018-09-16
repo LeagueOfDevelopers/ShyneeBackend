@@ -4,6 +4,7 @@ using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -61,6 +62,52 @@ namespace ShyneeBackend.Application.Controllers
                     profile.Interests,
                     profile.PersonalInfo));
             return Ok(shyneeProfile);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("profile/privacy")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileFieldsPrivacyDto))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [SwaggerResponse(409, Type = typeof(NullParameterValueWhileStatusIsNotEmptyException))]
+        [ModelValidation]
+        public async Task<IActionResult> GetShyneeProfileFieldsPrivacy(
+            [FromRoute] Guid id)
+        {
+            var shyneeProfileFieldsPrivacy = _shyneesService.GetShyneeProfileFieldsPrivacy(id);
+            return Ok(shyneeProfileFieldsPrivacy);
+        }
+
+        /// <summary>
+        /// Accepts fields privacy modificators and applies them
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <param name="fieldsPrivacy">Parameter privacy modificators</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize]
+        [Route("profile/privacy")]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileFieldsPrivacyDto))]
+        [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
+        [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
+        [SwaggerResponse(409, Type = typeof(NullParameterValueWhileStatusIsNotEmptyException))]
+        [ModelValidation]
+        public async Task<IActionResult> UpdateShyneeProfileFieldsPrivacy(
+            [FromRoute] Guid id,
+            [FromBody] ShyneeProfileFieldsPrivacy fieldsPrivacy)
+        {
+            var shyneeProfileFieldsPrivacy = _shyneesService.UpdateShyneeProfileFieldsPrivacy(
+                id,
+                new ShyneeProfileFieldsPrivacyDto(
+                    fieldsPrivacy.Nickname,
+                    fieldsPrivacy.AvatarUri,
+                    fieldsPrivacy.Name,
+                    fieldsPrivacy.Dob,
+                    fieldsPrivacy.Gender,
+                    fieldsPrivacy.Interests,
+                    fieldsPrivacy.PersonalInfo));
+            return Ok(shyneeProfileFieldsPrivacy);
         }
 
         /// <summary>

@@ -9,6 +9,62 @@ namespace ShyneeBackend.Domain.Entities
         private const string _defaultNickname = "Stranger";
 
         public ShyneeProfile(
+            string nickname,
+            Uri avatarUri,
+            string name,
+            DateTime? dob,
+            Gender? gender,
+            string[] interests,
+            string personalInfo)
+        {
+            Nickname = 
+                nickname != null ? 
+                new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden, 
+                        nickname) :
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        _defaultNickname);
+
+            AvatarUri =
+                avatarUri != null ?
+                    new ShyneeProfileParameter<Uri>(
+                        ShyneeProfileParameterStatus.Hidden, 
+                        avatarUri) :
+                    new ShyneeProfileParameter<Uri>();
+            Name = 
+                name != null ?
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        name) :
+                    new ShyneeProfileParameter<string>();
+            Dob =
+                dob != null ?
+                    new ShyneeProfileParameter<DateTime>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        (DateTime)dob) :
+                    new ShyneeProfileParameter<DateTime>();
+            Gender =
+                gender != null ?
+                    new ShyneeProfileParameter<Gender>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        (Gender)gender) :
+                    new ShyneeProfileParameter<Gender>();
+            Interests =
+                interests != null ?
+                    new ShyneeProfileParameter<string[]>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        interests) :
+                    new ShyneeProfileParameter<string[]>();
+            PersonalInfo =
+                personalInfo != null ?
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        personalInfo) :
+                    new ShyneeProfileParameter<string>();
+        }
+
+        public ShyneeProfile(
             ShyneeProfileParameter<string> nickname = null,
             ShyneeProfileParameter<Uri> avatarUri = null, 
             ShyneeProfileParameter<string> name = null, 
@@ -65,5 +121,25 @@ namespace ShyneeBackend.Domain.Entities
                     PersonalInfo.Parameter : null);
             return publicShyneeProfile;
         } 
+
+        public ShyneeProfileFieldsPrivacyDto GenerateProfileFieldsBoolValues()
+        {
+            var shyneeProfileFieldsPrivacy = new ShyneeProfileFieldsPrivacyDto(
+                Nickname.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                AvatarUri.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                Name.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                Dob.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                Gender.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                Interests.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false,
+                PersonalInfo.Status == ShyneeProfileParameterStatus.Visible ?
+                    true : false);
+            return shyneeProfileFieldsPrivacy;
+        }
     }
 }

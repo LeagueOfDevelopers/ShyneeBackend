@@ -14,18 +14,18 @@ namespace ShyneeBackend.Application.RequestModels
         [MinLength(8)]
         public string Password { get; set; }
 
-        public ShyneeProfileParameter<string> Nickname { get; set; }
+        public string Nickname { get; set; }
 
-        public ShyneeProfileParameter<Uri> AvatarUri { get; set; }
+        public Uri AvatarUri { get; set; }
 
-        public ShyneeProfileParameter<string> Name { get; set; }
+        public string Name { get; set; }
 
-        public ShyneeProfileParameter<DateTime> Dob { get; set; }
+        public DateTime Dob { get; set; }
 
-        public ShyneeProfileParameter<Gender> Gender { get; set; }
+        public Gender Gender { get; set; }
 
-        public ShyneeProfileParameter<string[]> Interests { get; set; }
+        public string[] Interests { get; set; }
 
-        public ShyneeProfileParameter<string> PersonalInfo { get; set; }
+        public string PersonalInfo { get; set; }
     }
 }

@@ -56,10 +56,19 @@ namespace ShyneeBackend.Application.Controllers
             var createdShynee = _shyneesService.CreateShynee(
                 shyneeCredentials,
                 shyneeProfile);
+            var shyneeProfileDto = new ShyneeProfileDto(
+                shyneeProfile.Nickname.Parameter,
+                shyneeProfile.AvatarUri.Parameter,
+                shyneeProfile.Name.Parameter,
+                shyneeProfile.Dob.Parameter,
+                shyneeProfile.Gender.Parameter,
+                shyneeProfile.Interests.Parameter,
+                shyneeProfile.PersonalInfo.Parameter);
             var shyneeCredentialsDto = new ShyneeCredentialsDto(
                 createdShynee.Id,
                 createdShynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(createdShynee.Id));
+                _jwtIssuer.IssueJwt(createdShynee.Id),
+                shyneeProfileDto);
             return Ok(shyneeCredentialsDto);
         }
 
@@ -77,10 +86,20 @@ namespace ShyneeBackend.Application.Controllers
                 loginShynee.Email,
                 loginShynee.Password);
             var shynee = _shyneesService.FindShyneeByCredentials(shyneeCredentials);
+            var shyneeProfile = shynee.Profile;
+            var shyneeProfileDto = new ShyneeProfileDto(
+                shyneeProfile.Nickname.Parameter,
+                shyneeProfile.AvatarUri.Parameter,
+                shyneeProfile.Name.Parameter,
+                shyneeProfile.Dob.Parameter,
+                shyneeProfile.Gender.Parameter,
+                shyneeProfile.Interests.Parameter,
+                shyneeProfile.PersonalInfo.Parameter);
             var shyneeCredentialsDto = new ShyneeCredentialsDto(
                 shynee.Id,
                 shynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(shynee.Id));
+                _jwtIssuer.IssueJwt(shynee.Id),
+                shyneeProfileDto);
             return Ok(shyneeCredentialsDto);
         }
 
@@ -93,10 +112,20 @@ namespace ShyneeBackend.Application.Controllers
         {
             var id = Request.GetUserId();
             var shynee = _shyneesService.GetShynee(id);
+            var shyneeProfile = shynee.Profile;
+            var shyneeProfileDto = new ShyneeProfileDto(
+                shyneeProfile.Nickname.Parameter,
+                shyneeProfile.AvatarUri.Parameter,
+                shyneeProfile.Name.Parameter,
+                shyneeProfile.Dob.Parameter,
+                shyneeProfile.Gender.Parameter,
+                shyneeProfile.Interests.Parameter,
+                shyneeProfile.PersonalInfo.Parameter);
             var shyneeCredentials = new ShyneeCredentialsDto(
                 shynee.Id,
                 shynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(shynee.Id));
+                _jwtIssuer.IssueJwt(shynee.Id),
+                shyneeProfileDto);
             return Ok(shyneeCredentials);
         }
     }

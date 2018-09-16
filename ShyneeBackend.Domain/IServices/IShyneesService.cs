@@ -26,6 +26,13 @@ namespace ShyneeBackend.Domain.IServices
             Guid id,
             ShyneeProfile profile);
 
+        ShyneeProfileFieldsPrivacyDto GetShyneeProfileFieldsPrivacy(
+            Guid id);
+
+        ShyneeProfileFieldsPrivacyDto UpdateShyneeProfileFieldsPrivacy(
+            Guid id,
+            ShyneeProfileFieldsPrivacyDto fieldsPrivacy);
+
         ShyneeSettingsDto GetShyneeSettings(
             Guid id);
 

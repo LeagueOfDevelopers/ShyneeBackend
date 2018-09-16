@@ -1,4 +1,6 @@
-﻿namespace ShyneeBackend.Domain
+﻿using ShyneeBackend.Domain.Exceptions;
+
+namespace ShyneeBackend.Domain
 {
     public class ShyneeProfileParameter<T>
     {
@@ -7,6 +9,19 @@
             T parameter = default(T))
         {
             Status = status;
+            Parameter = parameter;
+        }
+
+        public ShyneeProfileParameter(
+            bool statusIsVisible,
+            T parameter)
+        {
+            Status = statusIsVisible ? 
+                parameter == null ? 
+                    throw new NullParameterValueWhileStatusIsNotEmptyException() :
+                    ShyneeProfileParameterStatus.Visible :
+                ShyneeProfileParameterStatus.Hidden;
+
             Parameter = parameter;
         }
 
