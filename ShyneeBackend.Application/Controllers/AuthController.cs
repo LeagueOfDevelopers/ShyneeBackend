@@ -72,6 +72,12 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeCredentialsDto);
         }
 
+        /// <summary>
+        /// Logs in shynee
+        /// </summary>
+        /// <param name="loginShynee">Accepts email and password</param>
+        /// <returns>email, token and profile data</returns>
+        [HttpPost]
         [Route("login")]
         [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
@@ -103,6 +109,10 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeCredentialsDto);
         }
 
+        /// <summary>
+        /// Returns new token or updates existed one
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [Route("refresh")]

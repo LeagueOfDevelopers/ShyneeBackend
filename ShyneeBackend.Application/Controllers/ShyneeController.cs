@@ -40,6 +40,12 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeProfile);
         }
 
+        /// <summary>
+        /// Updates profile fields
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <param name="profile">Shynee profile fields</param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize]
         [Route("profile")]
@@ -64,6 +70,12 @@ namespace ShyneeBackend.Application.Controllers
             return Ok(shyneeProfile);
         }
 
+        /// <summary>
+        /// Returns profile field statuses: 
+        /// true for visible, false for hidden or empty
+        /// </summary>
+        /// <param name="id">Shynee id</param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("profile/privacy")]
