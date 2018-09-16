@@ -84,7 +84,6 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(InvalidPasswordException))]
         [SwaggerResponse(404, Type = typeof(ShyneeNotFoundException))]
-        [SwaggerResponse(409, Type = typeof(CreateShynee))]
         [ModelValidation]
         public async Task<IActionResult> Login(
             [FromBody] LoginShynee loginShynee)

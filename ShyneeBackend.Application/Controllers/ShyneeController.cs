@@ -176,7 +176,7 @@ namespace ShyneeBackend.Application.Controllers
         [HttpPut]
         [Authorize]
         [Route("ready/{isReady}")]
-        [SwaggerResponse(200, Type = typeof(bool))]
+        [SwaggerResponse(200, Type = typeof(ShyneeIsReadySettingDto))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> UpdateReadySetting(
             [FromRoute] Guid id,

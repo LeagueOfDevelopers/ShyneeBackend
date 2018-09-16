@@ -24,7 +24,8 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
 
         public Shynee GetShynee(Guid id)
         {
-            var shynee = _shyneesStore.Single(s => s.Id == id);
+
+            var shynee = _shyneesStore.Find(s => s.Id == id);
             return shynee == null ? throw new ShyneeNotFoundException() : shynee;
         }
 
