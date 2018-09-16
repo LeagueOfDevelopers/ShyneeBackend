@@ -22,6 +22,6 @@ namespace ShyneeBackend.Domain.DTOs
 
         public string Token { get; }
 
-        ShyneeProfileDto Profile { get; }
+        public ShyneeProfileDto Profile { get; }
     }
 }
