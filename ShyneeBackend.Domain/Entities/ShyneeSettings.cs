@@ -1,8 +1,8 @@
 ﻿namespace ShyneeBackend.Domain.Entities
 {
-    public class ShyneeReadySettings
+    public class ShyneeSettings
     {
-        public ShyneeReadySettings(
+        public ShyneeSettings(
             bool isReady = false, 
             bool backgroundModeIsEnabled = false, 
             bool metroModeIsEnabled = false, 
@@ -12,22 +12,6 @@
             bool pushNotificationOnNewAcquaintanceIsEnabled = true)
         {
             IsReady = isReady;
-            BackgroundModeIsEnabled = backgroundModeIsEnabled;
-            MetroModeIsEnabled = metroModeIsEnabled;
-            PushNotificationsAreEnabled = pushNotificationsAreEnabled;
-            OfferMetroModeActivationWhenNoCoonnectionIsEnabled = offerMetroModeActivationWhenNoCoonnectionIsEnabled;
-            OfferMetroModeDeactivationWhenCoonnectionIsEnabled = offerMetroModeDeactivationWhenCoonnectionIsEnabled;
-            PushNotificationOnNewAcquaintanceIsEnabled = pushNotificationOnNewAcquaintanceIsEnabled;
-        }
-
-        public ShyneeReadySettings(
-            bool backgroundModeIsEnabled,
-            bool metroModeIsEnabled,
-            bool pushNotificationsAreEnabled,
-            bool offerMetroModeActivationWhenNoCoonnectionIsEnabled,
-            bool offerMetroModeDeactivationWhenCoonnectionIsEnabled,
-            bool pushNotificationOnNewAcquaintanceIsEnabled)
-        {
             BackgroundModeIsEnabled = backgroundModeIsEnabled;
             MetroModeIsEnabled = metroModeIsEnabled;
             PushNotificationsAreEnabled = pushNotificationsAreEnabled;

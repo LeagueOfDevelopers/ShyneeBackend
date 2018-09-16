@@ -26,10 +26,10 @@ namespace ShyneeBackend.Helpers
                 );
         }
 
-        private static Faker<ShyneeReadySettings> FakeShyneeReadySettings()
+        private static Faker<ShyneeSettings> FakeShyneeSettings()
         {
-            return new Faker<ShyneeReadySettings>()
-                .CustomInstantiator(f => new ShyneeReadySettings());
+            return new Faker<ShyneeSettings>()
+                .CustomInstantiator(f => new ShyneeSettings());
         }
 
         private static Faker<ShyneeProfile> FakeShyneeProfile()
@@ -80,13 +80,13 @@ namespace ShyneeBackend.Helpers
         {
             var shyneeCredentials = FakeShyneeCredentials().Generate();
             var shyneeCoordinates = FakeShyneeCoordinates().Generate();
-            var shyneeReadySettings = FakeShyneeReadySettings().Generate();
+            var ShyneeSettings = FakeShyneeSettings().Generate();
             var shyneeProfile = FakeShyneeProfile().Generate();
             var shynee = new Shynee(
                 shyneeCredentials,
                 shyneeCoordinates,
                 shyneeProfile,
-                shyneeReadySettings);
+                ShyneeSettings);
             return shynee;
         }
 
@@ -94,7 +94,7 @@ namespace ShyneeBackend.Helpers
         {
             var shyneeCredentials = new ShyneeCredentials("shy@mail.com", Hasher.HashPassword("qwertyui"));
             var shyneeCoordinates = FakeShyneeCoordinates().Generate();
-            var shyneeReadySettings = new ShyneeReadySettings();
+            var ShyneeSettings = new ShyneeSettings();
             var shyneeProfile = new ShyneeProfile(new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),
                     new ShyneeProfileParameter<Uri>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
@@ -107,7 +107,7 @@ namespace ShyneeBackend.Helpers
                 shyneeCredentials,
                 shyneeCoordinates,
                 shyneeProfile,
-                shyneeReadySettings);
+                ShyneeSettings);
             return shynee;
         }
 

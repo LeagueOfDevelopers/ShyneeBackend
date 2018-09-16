@@ -8,7 +8,7 @@ namespace ShyneeBackend.Domain.Entities
             ShyneeCredentials credentials, 
             ShyneeCoordinates coordinates, 
             ShyneeProfile profile, 
-            ShyneeReadySettings readySettings)
+            ShyneeSettings readySettings)
         {
             Id = Guid.NewGuid();
             Credentials = credentials;
@@ -22,7 +22,7 @@ namespace ShyneeBackend.Domain.Entities
             ShyneeCredentials credentials,
             ShyneeCoordinates coordinates,
             ShyneeProfile profile,
-            ShyneeReadySettings readySettings)
+            ShyneeSettings readySettings)
         {
             Id = id;
             Credentials = credentials;
@@ -39,7 +39,7 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfile Profile { get; private set; }
 
-        public ShyneeReadySettings ReadySettings { get; private set; }
+        public ShyneeSettings ReadySettings { get; private set; }
 
         public void UpdateProfile(ShyneeProfile profile)
         {
@@ -51,7 +51,7 @@ namespace ShyneeBackend.Domain.Entities
             Coordinates = coordinates;
         }
 
-        public void UpdateReadySettings(ShyneeReadySettings readySettings)
+        public void UpdateReadySettings(ShyneeSettings readySettings)
         {
             ReadySettings = readySettings;
         }

@@ -46,13 +46,13 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfileParameter<string> PersonalInfo { get; }
 
-        public ShyneeProfilePublicData GeneratePublicShyneeProfile()
+        public ShyneeProfileDto GeneratePublicShyneeProfile()
         {
-            var publicShyneeProfile = new ShyneeProfilePublicData(
+            var publicShyneeProfile = new ShyneeProfileDto(
                 Nickname.Status == ShyneeProfileParameterStatus.Hidden ? 
                     _defaultNickname : Nickname.Parameter,
                 AvatarUri.Status == ShyneeProfileParameterStatus.Visible ? 
-                    AvatarUri.Parameter.ToString() : null,
+                    AvatarUri.Parameter : null,
                 Name.Status == ShyneeProfileParameterStatus.Visible ? 
                     Name.Parameter : null,
                 Dob.Status == ShyneeProfileParameterStatus.Visible ? 

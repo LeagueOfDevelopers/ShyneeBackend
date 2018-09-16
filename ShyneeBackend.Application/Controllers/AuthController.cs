@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShyneeBackend.Application.Extensions;
 using ShyneeBackend.Application.Filters;
 using ShyneeBackend.Application.Jwt;
 using ShyneeBackend.Application.RequestModels;
 using ShyneeBackend.Domain.DTOs;
 using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Threading.Tasks;
-using ShyneeBackend.Application.Extensions;
-using ShyneeBackend.Domain.Exceptions;
-using ShyneeBackend.Domain.Settings;
-using ShyneeBackend.Domain;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -37,7 +35,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("shynees")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
+        [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(409, Type = typeof(CreateShynee))]
         [ModelValidation]
@@ -58,16 +56,15 @@ namespace ShyneeBackend.Application.Controllers
             var createdShynee = _shyneesService.CreateShynee(
                 shyneeCredentials,
                 shyneeProfile);
-            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+            var shyneeCredentialsDto = new ShyneeCredentialsDto(
                 createdShynee.Id,
                 createdShynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(createdShynee.Id),
-                createdShynee.Profile);
-            return Ok(shyneeProfileWithCredentials);
+                _jwtIssuer.IssueJwt(createdShynee.Id));
+            return Ok(shyneeCredentialsDto);
         }
 
         [Route("login")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
+        [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(InvalidPasswordException))]
         [SwaggerResponse(404, Type = typeof(ShyneeNotFoundException))]
@@ -80,29 +77,27 @@ namespace ShyneeBackend.Application.Controllers
                 loginShynee.Email,
                 loginShynee.Password);
             var shynee = _shyneesService.FindShyneeByCredentials(shyneeCredentials);
-            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+            var shyneeCredentialsDto = new ShyneeCredentialsDto(
                 shynee.Id,
                 shynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(shynee.Id),
-                shynee.Profile);
-            return Ok(shyneeProfileWithCredentials);
+                _jwtIssuer.IssueJwt(shynee.Id));
+            return Ok(shyneeCredentialsDto);
         }
 
         [Authorize]
         [HttpGet]
         [Route("refresh")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileWithCredentials))]
+        [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public IActionResult RefreshToken()
         {
             var id = Request.GetUserId();
             var shynee = _shyneesService.GetShynee(id);
-            var shyneeProfileWithCredentials = new ShyneeProfileWithCredentials(
+            var shyneeCredentials = new ShyneeCredentialsDto(
                 shynee.Id,
                 shynee.Credentials.Email,
-                _jwtIssuer.IssueJwt(shynee.Id),
-                shynee.Profile);
-            return Ok(shyneeProfileWithCredentials);
+                _jwtIssuer.IssueJwt(shynee.Id));
+            return Ok(shyneeCredentials);
         }
     }
 }

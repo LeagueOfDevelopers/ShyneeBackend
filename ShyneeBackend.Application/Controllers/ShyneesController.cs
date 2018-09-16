@@ -30,7 +30,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns>Shynees around list</returns>
         [HttpPut]
         [Route("around")]
-        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneesAroundList>))]
+        [SwaggerResponse(200, Type = typeof(IEnumerable<ShyneeAroundDto>))]
         public async Task<IActionResult> GetShyneesAround(
             [FromBody] Coordinates coordinates)
         {
@@ -50,7 +50,7 @@ namespace ShyneeBackend.Application.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id:guid}")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfilePublicData))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)

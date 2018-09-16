@@ -2,7 +2,7 @@
 
 namespace ShyneeBackend.Application.RequestModels
 {
-    public class EditedShyneeReadySettings
+    public class EditedShyneeSettings
     {
         [Required]
         public bool BackgroundModeIsEnabled { get; set; }

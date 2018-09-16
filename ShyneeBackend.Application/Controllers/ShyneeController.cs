@@ -31,7 +31,7 @@ namespace ShyneeBackend.Application.Controllers
         [HttpGet]
         [Authorize]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeProfile([FromRoute] Guid id)
         {
@@ -42,7 +42,7 @@ namespace ShyneeBackend.Application.Controllers
         [HttpPut]
         [Authorize]
         [Route("profile")]
-        [SwaggerResponse(200, Type = typeof(ShyneeProfileInfo))]
+        [SwaggerResponse(200, Type = typeof(ShyneeProfileDto))]
         [SwaggerResponse(400, Type = typeof(BadRequestObjectResult))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         [ModelValidation]
@@ -75,10 +75,7 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeSettingsForEdit([FromRoute] Guid id)
         {
-            var shynee = _shyneesService.GetShyneeReadySettings(id);
-            var shyneeSettings = new ShyneeSettings(
-                id,
-                shynee);
+            var shyneeSettings = _shyneesService.GetShyneeSettings(id);
             return Ok(shyneeSettings);
         }
 
@@ -97,18 +94,18 @@ namespace ShyneeBackend.Application.Controllers
         [ModelValidation]
         public async Task<IActionResult> UpdateShyneeSettings(
             [FromRoute] Guid id,
-            [FromBody] EditedShyneeReadySettings readySettings)
+            [FromBody] EditedShyneeSettings readySettings)
         {
-            var shyneeReadySettings = _shyneesService.UpdateShyneeSettings(
+            var shyneeSettings = _shyneesService.UpdateShyneeSettings(
                 id,
-                new ShyneeReadySettings(
+                new ShyneeSettings(
                     readySettings.BackgroundModeIsEnabled,
                     readySettings.MetroModeIsEnabled,
                     readySettings.PushNotificationsAreEnabled,
                     readySettings.OfferMetroModeActivationWhenNoCoonnectionIsEnabled,
                     readySettings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
                     readySettings.PushNotificationOnNewAcquaintanceIsEnabled));
-            return Ok(shyneeReadySettings);
+            return Ok(shyneeSettings);
         }
 
         /// <summary>
