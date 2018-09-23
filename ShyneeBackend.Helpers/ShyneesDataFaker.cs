@@ -49,10 +49,10 @@ namespace ShyneeBackend.Helpers
                     new ShyneeProfileParameter<string>(
                         nicknameParameterStatus,
                         f.Internet.UserName()),
-                    new ShyneeProfileParameter<Uri>(
+                    new ShyneeProfileParameter<string>(
                         avatarUriParameterStatus,
                         avatarUriParameterStatus != ShyneeProfileParameterStatus.Empty ? 
-                            new Uri(f.Internet.Avatar()) : null),
+                            f.Internet.Avatar() : null),
                     new ShyneeProfileParameter<string>(
                         nameParameterStatus,
                         nameParameterStatus != ShyneeProfileParameterStatus.Empty ?
@@ -96,7 +96,7 @@ namespace ShyneeBackend.Helpers
             var shyneeCoordinates = FakeShyneeCoordinates().Generate();
             var ShyneeSettings = new ShyneeSettings();
             var shyneeProfile = new ShyneeProfile(new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),
-                    new ShyneeProfileParameter<Uri>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<DateTime>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<Gender>(ShyneeProfileParameterStatus.Empty),

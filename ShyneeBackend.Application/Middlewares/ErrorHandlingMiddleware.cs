@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ShyneeBackend.Domain.Exceptions;
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -44,6 +45,8 @@ namespace ShyneeBackend.Application.Middlewares
                     HttpStatusCode.Conflict;
             if (exception is InvalidPasswordException) code = 
                     HttpStatusCode.Unauthorized;
+            if (exception is FileNotFoundException) code =
+                    HttpStatusCode.NotFound;
 
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
             context.Response.ContentType = "application/json";

@@ -16,7 +16,7 @@ namespace ShyneeBackend.Application.RequestModels
 
         public string Nickname { get; set; }
 
-        public Uri AvatarUri { get; set; }
+        public string AvatarUri { get; set; }
 
         public string Name { get; set; }
 

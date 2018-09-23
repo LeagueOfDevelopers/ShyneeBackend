@@ -10,7 +10,7 @@ namespace ShyneeBackend.Domain.DTOs
         public ShyneeAroundDto(
             Guid id,
             string nickname,
-            Uri avatarUri)
+            string avatarUri)
         {
             Id = id;
             Nickname = nickname;
@@ -21,6 +21,6 @@ namespace ShyneeBackend.Domain.DTOs
 
         public string Nickname { get; }
 
-        public Uri AvatarUri { get; }
+        public string AvatarUri { get; }
     }
 }

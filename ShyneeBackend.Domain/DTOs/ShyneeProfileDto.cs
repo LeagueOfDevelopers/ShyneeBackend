@@ -6,7 +6,7 @@ namespace ShyneeBackend.Domain.DTOs
     {
         public ShyneeProfileDto(
             string nickname, 
-            Uri avatarUri, 
+            string avatarUri, 
             string name, 
             DateTime? dob, 
             Gender? gender, 
@@ -24,7 +24,7 @@ namespace ShyneeBackend.Domain.DTOs
 
         public string Nickname { get; }
 
-        public Uri AvatarUri { get; }
+        public string AvatarUri { get; }
 
         public string Name { get; }
 
