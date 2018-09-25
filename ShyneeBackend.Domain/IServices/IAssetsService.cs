@@ -6,11 +6,12 @@ namespace ShyneeBackend.Domain.IServices
 {
     public interface IAssetsService
     {
-        UploadedAssetPathDto UploadImage(
-            Guid userId,
+        string UploadImage(
             string webRootPath, 
             IFormFile fileName);
 
-        FileDto GetFile(string webRootPath, string name);
+        FileDto GetImage(
+            string webRootPath, 
+            string name);
     }
 }

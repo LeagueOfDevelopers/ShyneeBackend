@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ShyneeBackend.Application.Extensions
 {
-    public static class FomFileExtensions
+    public static class FormFileExtensions
     {
         public static bool IsImageExtensionAllowed(this IFormFile file)
         {

@@ -64,7 +64,7 @@ namespace ShyneeBackend.Application
             // SERVICES
 
             var shyneesService = new ShyneesService(shyneesRepository, applicationSettings);
-            var assetsService = new AssetsService(applicationSettings, shyneesService);
+            var assetsService = new AssetsService(applicationSettings);
             
             services.AddSingleton<IShyneesService>(shyneesService);
             services.AddSingleton<IAssetsService>(assetsService);

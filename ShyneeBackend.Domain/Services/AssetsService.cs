@@ -13,14 +13,12 @@ namespace ShyneeBackend.Domain.Services
         private readonly IShyneesService _shyneesService;
 
         public AssetsService(
-            ApplicationSettings applicationSettings,
-            IShyneesService shyneesService)
+            ApplicationSettings applicationSettings)
         {
             _applicationSettings = applicationSettings;
-            _shyneesService = shyneesService;
         }
 
-        public FileDto GetFile(
+        public FileDto GetImage(
             string webRootPath, 
             string assetName)
         {
@@ -37,8 +35,7 @@ namespace ShyneeBackend.Domain.Services
             return file;
         }
 
-        public UploadedAssetPathDto UploadImage(
-            Guid userId,
+        public string UploadImage(
             string webRootPath, 
             IFormFile file)
         {
@@ -56,9 +53,7 @@ namespace ShyneeBackend.Domain.Services
             {
                 file.CopyTo(filestream);
             }
-    
-            var avatarPath = _shyneesService.UpdateShyneeAvatar(userId, assetName);
-            return avatarPath;
+            return assetName;
         }
     }
 }

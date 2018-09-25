@@ -16,19 +16,22 @@ namespace ShyneeBackend.Application.Controllers
     {
         private readonly IAssetsService _assetsService;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IShyneesService _shyneesService;
 
         public AssetsController(
             IHostingEnvironment environment,
-            IAssetsService assetsService)
+            IAssetsService assetsService,
+            IShyneesService shyneesService)
         {
             _hostingEnvironment = environment;
             _assetsService = assetsService;
+            _shyneesService = shyneesService;
         }
 
         /// <summary>
-        /// Accepts file and returns uri if success
+        /// Accepts image(.jpg|.jpeg, .png formats) and returns image name
         /// </summary>
-        /// <param name="file">File to upload</param>
+        /// <param name="image">Image to upload</param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
@@ -38,33 +41,34 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         [SwaggerResponse(415, Type = typeof(UnsupportedMediaTypeResult))]
         [SwaggerResponse(200, Type = typeof(UploadedAssetPathDto))]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        public async Task<IActionResult> UploadShyneeAvatar(IFormFile image)
         {
             var id = Request.GetUserId();
-            if (!file.IsImageExtensionAllowed())
+            if (!image.IsImageExtensionAllowed())
                 return new UnsupportedMediaTypeResult();
-            var uploadedAssetUri = _assetsService.UploadImage(
-                id,
+            var uploadedImageName = _assetsService.UploadImage(
                 _hostingEnvironment.WebRootPath,
-                file);
+                image);
+            _shyneesService.UpdateShyneeAvatar(id, uploadedImageName);
+            var uploadedAssetUri = new UploadedAssetPathDto(uploadedImageName);
             return Ok(uploadedAssetUri);
         }
 
         /// <summary>
-        /// Returns image if it is located by passed path
+        /// Returns image found by passed name
         /// </summary>
-        /// <param name="path">Avatar uri field in Shynee profile</param>
-        /// <returns></returns>
+        /// <param name="name">Image name</param>
+        /// <returns>Image in .jpg|.jpeg or .png formats</returns>
         [HttpGet]
         [SwaggerResponse(404, Type = typeof(FileNotFoundException))]
         [SwaggerResponse(200, Type = typeof(File))]
         [Route("img/{name}")]
         public async Task<IActionResult> GetImage([FromRoute] string name)
         {
-            var file = _assetsService.GetFile(
+            var image = _assetsService.GetImage(
                 _hostingEnvironment.WebRootPath, 
                 name);
-            return File(file.FileBytes, file.ContentType);
+            return File(image.FileBytes, image.ContentType);
         }
     }
 }
