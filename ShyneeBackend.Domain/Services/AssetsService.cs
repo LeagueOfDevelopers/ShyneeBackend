@@ -4,6 +4,7 @@ using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Settings;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Domain.Services
 {
@@ -18,7 +19,7 @@ namespace ShyneeBackend.Domain.Services
             _applicationSettings = applicationSettings;
         }
 
-        public FileDto GetImage(
+        public async Task<FileDto> GetImageAsync(
             string webRootPath, 
             string assetName)
         {
@@ -28,14 +29,24 @@ namespace ShyneeBackend.Domain.Services
             var assetPath = Path.Combine(uploadPath, assetName);
             if (!File.Exists(assetPath))
                 throw new FileNotFoundException();
-            var fileBytes = File.ReadAllBytes(assetPath);
+            byte[] fileBytes;
+            using (FileStream SourceStream = File.Open(
+                assetPath, 
+                FileMode.Open))
+            {
+                fileBytes = new byte[SourceStream.Length];
+                await SourceStream.ReadAsync(
+                    fileBytes, 
+                    0, 
+                    (int)SourceStream.Length);
+            }
             var extension = Path.GetExtension(assetName).Trim('.');
             var contentType = "image/" + extension;
             var file = new FileDto(fileBytes, contentType);
             return file;
         }
 
-        public string UploadImage(
+        public async Task<string> UploadImageAsync(
             string webRootPath, 
             IFormFile file)
         {
@@ -51,7 +62,7 @@ namespace ShyneeBackend.Domain.Services
                 assetPath, 
                 FileMode.Create))
             {
-                file.CopyTo(filestream);
+                await file.CopyToAsync(filestream);
             }
             return assetName;
         }

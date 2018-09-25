@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ShyneeBackend.Domain.DTOs;
-using System;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Domain.IServices
 {
     public interface IAssetsService
     {
-        string UploadImage(
+        Task<string> UploadImageAsync(
             string webRootPath, 
             IFormFile fileName);
 
-        FileDto GetImage(
+        Task<FileDto> GetImageAsync(
             string webRootPath, 
             string name);
     }

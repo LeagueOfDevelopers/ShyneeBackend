@@ -46,7 +46,7 @@ namespace ShyneeBackend.Application.Controllers
             var id = Request.GetUserId();
             if (!image.IsImageExtensionAllowed())
                 return new UnsupportedMediaTypeResult();
-            var uploadedImageName = _assetsService.UploadImage(
+            var uploadedImageName = await _assetsService.UploadImageAsync(
                 _hostingEnvironment.WebRootPath,
                 image);
             _shyneesService.UpdateShyneeAvatar(id, uploadedImageName);
@@ -65,7 +65,7 @@ namespace ShyneeBackend.Application.Controllers
         [Route("img/{name}")]
         public async Task<IActionResult> GetImage([FromRoute] string name)
         {
-            var image = _assetsService.GetImage(
+            var image = await _assetsService.GetImageAsync(
                 _hostingEnvironment.WebRootPath, 
                 name);
             return File(image.FileBytes, image.ContentType);
