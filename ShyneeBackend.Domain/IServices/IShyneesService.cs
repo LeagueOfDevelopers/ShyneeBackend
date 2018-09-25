@@ -50,5 +50,9 @@ namespace ShyneeBackend.Domain.IServices
 
         Shynee FindShyneeByCredentials(
             ShyneeCredentials credentials);
+
+        UploadedAssetPathDto UpdateShyneeAvatar(
+            Guid shyneeId,
+            string assetPath);
     }
 }

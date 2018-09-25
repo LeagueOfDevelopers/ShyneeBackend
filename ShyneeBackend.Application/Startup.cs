@@ -37,7 +37,8 @@ namespace ShyneeBackend.Application
             var applicationConfiguration = Configuration.GetSection("Application");
             var applicationSettings = new ApplicationSettings(
                 applicationConfiguration["DefaultNickname"],
-                applicationConfiguration.GetValue<double>("RadiusAround"));
+                applicationConfiguration.GetValue<double>("RadiusAround"),
+                applicationConfiguration["UploadsFolderName"]);
             services.AddSingleton(applicationSettings);
 
             var securityConfiguration = Configuration.GetSection("Security");
@@ -63,8 +64,10 @@ namespace ShyneeBackend.Application
             // SERVICES
 
             var shyneesService = new ShyneesService(shyneesRepository, applicationSettings);
+            var assetsService = new AssetsService(applicationSettings);
             
             services.AddSingleton<IShyneesService>(shyneesService);
+            services.AddSingleton<IAssetsService>(assetsService);
 
             // OTHER DEPENDENCIES
 

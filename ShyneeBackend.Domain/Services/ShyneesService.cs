@@ -166,7 +166,7 @@ namespace ShyneeBackend.Domain.Services
                 new ShyneeProfileParameter<string>(
                     fieldsPrivacy.Nickname,
                     shyneeProfile.Nickname.Parameter),
-                new ShyneeProfileParameter<Uri>(
+                new ShyneeProfileParameter<string>(
                     fieldsPrivacy.AvatarUri,
                     shyneeProfile.AvatarUri.Parameter),
                 new ShyneeProfileParameter<string>(
@@ -205,6 +205,27 @@ namespace ShyneeBackend.Domain.Services
             var shynee = _shyneesRepository.GetShynee(id);
             shynee.UpdateCoordinates(coordinates);
             _shyneesRepository.UpdateShynee(shynee);
+        }
+
+        public UploadedAssetPathDto UpdateShyneeAvatar(
+            Guid shyneeId,
+            string assetPath)
+        {
+            var shynee = _shyneesRepository.GetShynee(shyneeId);
+            var shyneeProfile = shynee.Profile;
+            var updatedShyneeProfile = new ShyneeProfile(
+                shyneeProfile.Nickname.Parameter,
+                assetPath,
+                shyneeProfile.Name.Parameter,
+                shyneeProfile.Dob.Parameter,
+                shyneeProfile.Gender.Parameter,
+                shyneeProfile.Interests.Parameter,
+                shyneeProfile.PersonalInfo.Parameter);
+            shynee.UpdateProfile(updatedShyneeProfile);
+            _shyneesRepository.UpdateShynee(shynee);
+            var uploadedAssetUri = new UploadedAssetPathDto(
+                shynee.Profile.AvatarUri.Parameter);
+            return uploadedAssetUri;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfile(
             string nickname,
-            Uri avatarUri,
+            string avatarUri,
             string name,
             DateTime? dob,
             Gender? gender,
@@ -28,10 +28,10 @@ namespace ShyneeBackend.Domain.Entities
 
             AvatarUri =
                 avatarUri != null ?
-                    new ShyneeProfileParameter<Uri>(
+                    new ShyneeProfileParameter<string>(
                         ShyneeProfileParameterStatus.Hidden, 
                         avatarUri) :
-                    new ShyneeProfileParameter<Uri>();
+                    new ShyneeProfileParameter<string>();
             Name = 
                 name != null ?
                     new ShyneeProfileParameter<string>(
@@ -66,7 +66,7 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfile(
             ShyneeProfileParameter<string> nickname = null,
-            ShyneeProfileParameter<Uri> avatarUri = null, 
+            ShyneeProfileParameter<string> avatarUri = null, 
             ShyneeProfileParameter<string> name = null, 
             ShyneeProfileParameter<DateTime> dob = null, 
             ShyneeProfileParameter<Gender> gender = null, 
@@ -80,7 +80,7 @@ namespace ShyneeBackend.Domain.Entities
             if (Nickname.Status == ShyneeProfileParameterStatus.Empty)
                 throw new ShyneeProfileNicknameIsEmptyException();
 
-            AvatarUri = avatarUri ?? new ShyneeProfileParameter<Uri>(); 
+            AvatarUri = avatarUri ?? new ShyneeProfileParameter<string>(); 
             Name = name ?? new ShyneeProfileParameter<string>();
             Dob = dob ?? new ShyneeProfileParameter<DateTime>();
             Gender = gender ?? new ShyneeProfileParameter<Gender>();
@@ -90,7 +90,7 @@ namespace ShyneeBackend.Domain.Entities
 
         public ShyneeProfileParameter<string> Nickname { get; }
 
-        public ShyneeProfileParameter<Uri> AvatarUri { get; }
+        public ShyneeProfileParameter<string> AvatarUri { get; }
 
         public ShyneeProfileParameter<string> Name { get; }
 
