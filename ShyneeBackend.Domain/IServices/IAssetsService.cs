@@ -15,3 +15,4 @@ namespace ShyneeBackend.Domain.IServices
             string name);
     }
 }
+    
