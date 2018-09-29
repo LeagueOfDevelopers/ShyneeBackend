@@ -53,7 +53,7 @@ namespace ShyneeBackend.Application.Controllers
                 shynee.Gender,
                 shynee.Interests,
                 shynee.PersonalInfo);
-            var createdShynee = _shyneesService.CreateShynee(
+            var createdShynee = await _shyneesService.CreateShyneeAsync(
                 shyneeCredentials,
                 shyneeProfile);
             var shyneeProfileDto = new ShyneeProfileDto(
@@ -91,7 +91,7 @@ namespace ShyneeBackend.Application.Controllers
             var shyneeCredentials = new ShyneeCredentials(
                 loginShynee.Email,
                 loginShynee.Password);
-            var shynee = _shyneesService.FindShyneeByCredentials(shyneeCredentials);
+            var shynee = await _shyneesService.FindShyneeByCredentialsAsync(shyneeCredentials);
             var shyneeProfile = shynee.Profile;
             var shyneeProfileDto = new ShyneeProfileDto(
                 shyneeProfile.Nickname.Parameter,
@@ -118,10 +118,10 @@ namespace ShyneeBackend.Application.Controllers
         [Route("refresh")]
         [SwaggerResponse(200, Type = typeof(ShyneeCredentialsDto))]
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
-        public IActionResult RefreshToken()
+        public async Task<IActionResult> RefreshTokenAsync()
         {
             var id = Request.GetUserId();
-            var shynee = _shyneesService.GetShynee(id);
+            var shynee = await _shyneesService.GetShyneeAsync(id);
             var shyneeProfile = shynee.Profile;
             var shyneeProfileDto = new ShyneeProfileDto(
                 shyneeProfile.Nickname.Parameter,

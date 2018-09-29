@@ -39,11 +39,11 @@ namespace ShyneeBackend.Application.Controllers
                 coordinates.Latitude, 
                 coordinates.Longitude);
             var shyneesAroundList = _shyneesService
-                .GetShyneesAroundList(shyneeCoordinates);
+                .GetShyneesAroundListAsync(shyneeCoordinates);
             if (Request.IsUserAuthorized())
             {
                 var id = Request.GetUserId();
-                _shyneesService.UpdateShyneeCoordinates(id, shyneeCoordinates);
+                _shyneesService.UpdateShyneeCoordinatesAsync(id, shyneeCoordinates);
             }
             return Ok(shyneesAroundList);
         }
@@ -60,7 +60,7 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)
         {
-            var shynee = _shyneesService.GetShyneePublicData(id);
+            var shynee = _shyneesService.GetShyneePublicDataAsync(id);
             return Ok(shynee);
         }
     }

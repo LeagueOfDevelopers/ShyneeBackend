@@ -1,23 +1,24 @@
 ﻿using ShyneeBackend.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Domain.IRepositories
 {
     public interface IShyneesRepository
     {
-        IEnumerable<Shynee> GetShynees();
+        Task<IEnumerable<Shynee>> GetShynees();
 
-        IEnumerable<ShyneeCoordinates> GetShyneeCoordinates();
+        Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinates();
 
-        Shynee GetShynee(Guid id);
+        Task<Shynee> GetShynee(Guid id);
 
-        Shynee UpdateShynee(Shynee shynee);
+        Task<Shynee> UpdateShynee(Shynee shynee);
 
-        bool IsShyneeExists(string email);
+        Task<bool> IsShyneeExists(string email);
 
-        Guid CreateShynee(Shynee shynee);
+        Task<Guid> CreateShynee(Shynee shynee);
 
-        Shynee FindShyneeByCredentials(ShyneeCredentials credentials);
+        Task<Shynee> FindShyneeByCredentials(ShyneeCredentials credentials);
     }
 }

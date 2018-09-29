@@ -57,7 +57,7 @@ namespace ShyneeBackend.Application.Controllers
             [FromRoute] Guid id, 
             [FromBody] EditedShyneeProfile profile)
         {
-            var shyneeProfile = _shyneesService.UpdateShyneeProfile(
+            var shyneeProfile = _shyneesService.UpdateShyneeProfileAsync(
                 id, 
                 new ShyneeProfile(
                     profile.Nickname,
@@ -87,7 +87,7 @@ namespace ShyneeBackend.Application.Controllers
         public async Task<IActionResult> GetShyneeProfileFieldsPrivacy(
             [FromRoute] Guid id)
         {
-            var shyneeProfileFieldsPrivacy = _shyneesService.GetShyneeProfileFieldsPrivacy(id);
+            var shyneeProfileFieldsPrivacy = _shyneesService.GetShyneeProfileFieldsPrivacyAsync(id);
             return Ok(shyneeProfileFieldsPrivacy);
         }
 
@@ -109,7 +109,7 @@ namespace ShyneeBackend.Application.Controllers
             [FromRoute] Guid id,
             [FromBody] ShyneeProfileFieldsPrivacy fieldsPrivacy)
         {
-            var shyneeProfileFieldsPrivacy = _shyneesService.UpdateShyneeProfileFieldsPrivacy(
+            var shyneeProfileFieldsPrivacy = _shyneesService.UpdateShyneeProfileFieldsPrivacyAsync(
                 id,
                 new ShyneeProfileFieldsPrivacyDto(
                     fieldsPrivacy.Nickname,
@@ -134,7 +134,7 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShyneeSettingsForEdit([FromRoute] Guid id)
         {
-            var shyneeSettings = _shyneesService.GetShyneeSettings(id);
+            var shyneeSettings = _shyneesService.GetShyneeSettingsAsync(id);
             return Ok(shyneeSettings);
         }
 
@@ -155,7 +155,7 @@ namespace ShyneeBackend.Application.Controllers
             [FromRoute] Guid id,
             [FromBody] EditedShyneeSettings readySettings)
         {
-            var shyneeSettings = _shyneesService.UpdateShyneeSettings(
+            var shyneeSettings = _shyneesService.UpdateShyneeSettingsAsync(
                 id,
                 new ShyneeSettings(
                     readySettings.BackgroundModeIsEnabled,
@@ -182,7 +182,7 @@ namespace ShyneeBackend.Application.Controllers
             [FromRoute] Guid id,
             [FromRoute] bool isReady)
         {
-            var isShyneeReady = _shyneesService.ChangeShyneeReadySetting(id, isReady);
+            var isShyneeReady = _shyneesService.ChangeShyneeReadySettingAsync(id, isReady);
             return Ok(isShyneeReady);
         }
     }

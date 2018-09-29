@@ -12,6 +12,7 @@ using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Services;
 using ShyneeBackend.Domain.Settings;
+using ShyneeBackend.Infrastructure;
 using ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories;
 using ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories;
 using Swashbuckle.AspNetCore.Swagger;
@@ -40,6 +41,12 @@ namespace ShyneeBackend.Application
                 applicationConfiguration.GetValue<double>("RadiusAround"),
                 applicationConfiguration["UploadsFolderName"]);
             services.AddSingleton(applicationSettings);
+
+            var dbConfiguration = Configuration.GetSection("Database:MongoDB");
+            var dbSettings = new DbSettings(
+                dbConfiguration["ConnectionString"],
+                dbConfiguration["Database"]);
+            services.AddSingleton(dbSettings);
 
             var securityConfiguration = Configuration.GetSection("Security");
             var securitySettings = new SecuritySettings(

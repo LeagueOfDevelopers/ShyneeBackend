@@ -2,56 +2,57 @@
 using ShyneeBackend.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Domain.IServices
 {
     public interface IShyneesService
     {
-        IEnumerable<ShyneeAroundDto> GetShyneesAroundList(ShyneeCoordinates shyneeCoordinates);
+        Task<IEnumerable<ShyneeAroundDto>> GetShyneesAroundListAsync(ShyneeCoordinates shyneeCoordinates);
 
-        Shynee CreateShynee(
+        Task<Shynee> CreateShyneeAsync(
             ShyneeCredentials shyneeCredentials,
             ShyneeProfile shyneeProfile);
 
-        Shynee GetShynee(
+        Task<Shynee> GetShyneeAsync(
             Guid id);
 
-        ShyneeProfileDto GetShyneePublicData(
+        Task<ShyneeProfileDto> GetShyneePublicDataAsync(
             Guid id);
 
-        void UpdateShyneeCoordinates(
+        Task UpdateShyneeCoordinatesAsync(
             Guid id,
             ShyneeCoordinates coordinates);
 
-        ShyneeProfileDto GetShyneeProfile(
+        Task<ShyneeProfileDto> GetShyneeProfile(
             Guid id);
 
-        ShyneeProfileDto UpdateShyneeProfile(
+        Task<ShyneeProfileDto> UpdateShyneeProfileAsync(
             Guid id,
             ShyneeProfile profile);
 
-        ShyneeProfileFieldsPrivacyDto GetShyneeProfileFieldsPrivacy(
+        Task<ShyneeProfileFieldsPrivacyDto> GetShyneeProfileFieldsPrivacyAsync(
             Guid id);
 
-        ShyneeProfileFieldsPrivacyDto UpdateShyneeProfileFieldsPrivacy(
+        Task<ShyneeProfileFieldsPrivacyDto> UpdateShyneeProfileFieldsPrivacyAsync(
             Guid id,
             ShyneeProfileFieldsPrivacyDto fieldsPrivacy);
 
-        ShyneeSettingsDto GetShyneeSettings(
+        Task<ShyneeSettingsDto> GetShyneeSettingsAsync(
             Guid id);
 
-        ShyneeSettingsDto UpdateShyneeSettings(
+        Task<ShyneeSettingsDto> UpdateShyneeSettingsAsync(
             Guid id, 
             ShyneeSettings ShyneeSettings);
 
-        ShyneeIsReadySettingDto ChangeShyneeReadySetting(
+        Task<ShyneeIsReadySettingDto> ChangeShyneeReadySettingAsync(
             Guid id, 
             bool isReady);
 
-        Shynee FindShyneeByCredentials(
+        Task<Shynee> FindShyneeByCredentialsAsync(
             ShyneeCredentials credentials);
 
-        UploadedAssetPathDto UpdateShyneeAvatar(
+        Task<UploadedAssetPathDto> UpdateShyneeAvatarAsync(
             Guid shyneeId,
             string assetPath);
     }
