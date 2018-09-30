@@ -8,7 +8,8 @@ namespace ShyneeBackend.Domain.IServices
 {
     public interface IShyneesService
     {
-        Task<IEnumerable<ShyneeAroundDto>> GetShyneesAroundListAsync(ShyneeCoordinates shyneeCoordinates);
+        Task<IEnumerable<ShyneeAroundDto>> GetShyneesAroundListAsync(
+            ShyneeCoordinates shyneeCoordinates);
 
         Task<Shynee> CreateShyneeAsync(
             ShyneeCredentials shyneeCredentials,

@@ -8,37 +8,37 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
 {
     public class ShyneesRepository : IShyneesRepository
     {
-        public Task<Guid> CreateShynee(Shynee shynee)
+        public Task<Guid> CreateShyneeAsync(Shynee shynee)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Shynee> FindShyneeByCredentials(ShyneeCredentials credentials)
+        public Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Shynee> GetShynee(Guid id)
+        public Task<Shynee> GetShyneeAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinates()
+        public Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinatesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Shynee>> GetShynees()
+        public Task<IEnumerable<Shynee>> GetShyneesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsShyneeExists(string email)
+        public Task<bool> IsShyneeExistsAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Shynee> UpdateShynee(Shynee shynee)
+        public Task<Shynee> UpdateShyneeAsync(Shynee shynee)
         {
             throw new NotImplementedException();
         }

@@ -7,18 +7,19 @@ namespace ShyneeBackend.Domain.IRepositories
 {
     public interface IShyneesRepository
     {
-        Task<IEnumerable<Shynee>> GetShynees();
+        Task<IEnumerable<Shynee>> GetShyneesAsync();
 
-        Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinates();
+        Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinatesAsync();
 
-        Task<Shynee> GetShynee(Guid id);
+        Task<Shynee> GetShyneeAsync(Guid id);
 
-        Task<Shynee> UpdateShynee(Shynee shynee);
+        Task<Shynee> UpdateShyneeAsync(Shynee shynee);
 
-        Task<bool> IsShyneeExists(string email);
+        Task<bool> IsShyneeExistsAsync(string email);
 
-        Task<Guid> CreateShynee(Shynee shynee);
+        Task<Guid> CreateShyneeAsync(Shynee shynee);
 
-        Task<Shynee> FindShyneeByCredentials(ShyneeCredentials credentials);
+        Task<Shynee> FindShyneeByCredentialsAsync(
+            ShyneeCredentials credentials);
     }
 }

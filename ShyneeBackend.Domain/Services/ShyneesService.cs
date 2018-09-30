@@ -26,7 +26,7 @@ namespace ShyneeBackend.Domain.Services
 
         public async Task<ShyneeProfileDto> GetShyneeProfile(Guid id)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeProfile = shynee.Profile;
             var shyneeProfileDto = new ShyneeProfileDto(
                 shyneeProfile.Nickname.Parameter,
@@ -43,9 +43,9 @@ namespace ShyneeBackend.Domain.Services
             Guid id,
             ShyneeProfile profile)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             shynee.UpdateProfile(profile);
-            await _shyneesRepository.UpdateShynee(shynee);
+            await _shyneesRepository.UpdateShyneeAsync(shynee);
             return new ShyneeProfileDto(
                 profile.Nickname.Parameter,
                 profile.AvatarUri.Parameter,
@@ -58,14 +58,14 @@ namespace ShyneeBackend.Domain.Services
 
         public async Task<ShyneeProfileDto> GetShyneePublicDataAsync(Guid id)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeProfileDto = shynee.Profile.GeneratePublicShyneeProfile();
             return shyneeProfileDto;
         }
 
         public async Task<ShyneeSettingsDto> GetShyneeSettingsAsync(Guid id)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeSettings = shynee.Settings;
             var settings = new ShyneeSettingsDto(
                 shyneeSettings.BackgroundModeIsEnabled,
@@ -79,9 +79,9 @@ namespace ShyneeBackend.Domain.Services
 
         public async Task<ShyneeIsReadySettingDto> ChangeShyneeReadySettingAsync(Guid id, bool isReady)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             shynee.Settings.UpdateIsReadySetting(isReady);
-            var updatedShynee = await _shyneesRepository.UpdateShynee(shynee);
+            var updatedShynee = await _shyneesRepository.UpdateShyneeAsync(shynee);
             var shyneeIsReady = new ShyneeIsReadySettingDto(
                 updatedShynee.Settings.IsReady);
             return shyneeIsReady;
@@ -90,7 +90,7 @@ namespace ShyneeBackend.Domain.Services
         public async Task<IEnumerable<ShyneeAroundDto>> GetShyneesAroundListAsync(
             ShyneeCoordinates shyneeCoordinates)
         {
-            var shynees = await _shyneesRepository.GetShynees();
+            var shynees = await _shyneesRepository.GetShyneesAsync();
             var shyneesAroundListInfos = shynees.Where(s => s.Coordinates.CalculateDistance(
                     shyneeCoordinates.Latitude,
                     shyneeCoordinates.Longitude) <= _applicationSettings.RadiusAround)
@@ -106,7 +106,7 @@ namespace ShyneeBackend.Domain.Services
 
         public async Task<Shynee> GetShyneeAsync(Guid id)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             return shynee;
         }
 
@@ -114,15 +114,15 @@ namespace ShyneeBackend.Domain.Services
             ShyneeCredentials shyneeCredentials,
             ShyneeProfile shyneeProfile)
         {
-            if (await _shyneesRepository.IsShyneeExists(shyneeCredentials.Email))
+            if (await _shyneesRepository.IsShyneeExistsAsync(shyneeCredentials.Email))
                 throw new ShyneeDuplicateException();
             var shynee = new Shynee(
                 shyneeCredentials,
                 new ShyneeCoordinates(),
                 shyneeProfile,
                 new ShyneeSettings());
-            var id = await _shyneesRepository.CreateShynee(shynee);
-            var createdShynee = await _shyneesRepository.GetShynee(id);
+            var id = await _shyneesRepository.CreateShyneeAsync(shynee);
+            var createdShynee = await _shyneesRepository.GetShyneeAsync(id);
             return createdShynee;
         }
 
@@ -130,7 +130,7 @@ namespace ShyneeBackend.Domain.Services
             Guid id, 
             ShyneeSettings settings)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var settingsToUpdate = new ShyneeSettings(
                 shynee.Settings.IsReady,
                 settings.BackgroundModeIsEnabled,
@@ -140,7 +140,7 @@ namespace ShyneeBackend.Domain.Services
                 settings.OfferMetroModeDeactivationWhenCoonnectionIsEnabled,
                 settings.PushNotificationOnNewAcquaintanceIsEnabled);
             shynee.UpdateSettings(settingsToUpdate);
-            var updatedShynee = await _shyneesRepository.UpdateShynee(shynee);
+            var updatedShynee = await _shyneesRepository.UpdateShyneeAsync(shynee);
             var updatedSettings = updatedShynee.Settings;
             var shyneeSettings = new ShyneeSettingsDto(
                 updatedSettings.BackgroundModeIsEnabled,
@@ -154,7 +154,7 @@ namespace ShyneeBackend.Domain.Services
 
         public async Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
         {
-            var shynee = await _shyneesRepository.FindShyneeByCredentials(credentials);
+            var shynee = await _shyneesRepository.FindShyneeByCredentialsAsync(credentials);
             return shynee;
         }
 
@@ -162,7 +162,7 @@ namespace ShyneeBackend.Domain.Services
             Guid id, 
             ShyneeProfileFieldsPrivacyDto fieldsPrivacy)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeProfileToUpdate = new ShyneeProfile(
                 new ShyneeProfileParameter<string>(
                     fieldsPrivacy.Nickname,
@@ -186,14 +186,14 @@ namespace ShyneeBackend.Domain.Services
                     fieldsPrivacy.PersonalInfo,
                     shynee.Profile.PersonalInfo.Parameter));
             shynee.UpdateProfile(shyneeProfileToUpdate);
-            _shyneesRepository.UpdateShynee(shynee);
+            _shyneesRepository.UpdateShyneeAsync(shynee);
             return fieldsPrivacy;
         }
 
         public async Task<ShyneeProfileFieldsPrivacyDto> GetShyneeProfileFieldsPrivacyAsync(
             Guid id)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeProfileFieldsPrivacyDto = shynee.Profile
                 .GenerateProfileFieldsBoolValues();
             return shyneeProfileFieldsPrivacyDto;
@@ -203,16 +203,16 @@ namespace ShyneeBackend.Domain.Services
             Guid id, 
             ShyneeCoordinates coordinates)
         {
-            var shynee = await _shyneesRepository.GetShynee(id);
+            var shynee = await _shyneesRepository.GetShyneeAsync(id);
             shynee.UpdateCoordinates(coordinates);
-            await _shyneesRepository.UpdateShynee(shynee);
+            await _shyneesRepository.UpdateShyneeAsync(shynee);
         }
 
         public async Task<UploadedAssetPathDto> UpdateShyneeAvatarAsync(
             Guid shyneeId,
             string assetPath)
         {
-            var shynee = await _shyneesRepository.GetShynee(shyneeId);
+            var shynee = await _shyneesRepository.GetShyneeAsync(shyneeId);
             var updatedShyneeProfile = new ShyneeProfile(
                 shynee.Profile.Nickname.Parameter,
                 assetPath,
@@ -222,7 +222,7 @@ namespace ShyneeBackend.Domain.Services
                 shynee.Profile.Interests.Parameter,
                 shynee.Profile.PersonalInfo.Parameter);
             shynee.UpdateProfile(updatedShyneeProfile);
-            _shyneesRepository.UpdateShynee(shynee);
+            _shyneesRepository.UpdateShyneeAsync(shynee);
             var uploadedAssetUri = new UploadedAssetPathDto(
                 shynee.Profile.AvatarUri.Parameter);
             return uploadedAssetUri;
