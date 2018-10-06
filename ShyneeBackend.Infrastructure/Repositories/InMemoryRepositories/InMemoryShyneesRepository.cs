@@ -62,7 +62,7 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
         public async Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
         {
             if (!await IsShyneeExistsAsync(credentials.Email))
-                throw new ShyneeNotFoundException();
+                throw new ShyneeNotFoundException("Shynee with required email is not found");
             var shynee = _shyneesStore.Single(s => s.Credentials.Email == credentials.Email);
             var shyneeHash = shynee.Credentials.Password;
             if (!IsPasswordValid(shyneeHash, credentials.Password))

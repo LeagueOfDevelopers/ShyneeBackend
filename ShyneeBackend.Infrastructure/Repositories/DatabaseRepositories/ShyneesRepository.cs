@@ -1,26 +1,49 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using ShyneeBackend.Domain.Entities;
+using ShyneeBackend.Domain.Exceptions;
+using ShyneeBackend.Domain.IRepositories;
+using ShyneeBackend.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShyneeBackend.Domain.Entities;
-using ShyneeBackend.Domain.IRepositories;
 
 namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
 {
     public class ShyneesRepository : IShyneesRepository
     {
-        public Task<Guid> CreateShyneeAsync(Shynee shynee)
+        private readonly DbContext _dbContext;
+
+        private bool IsPasswordValid(string shyneeHash, string password)
         {
-            throw new NotImplementedException();
+            return Hasher.VerifyPassword(shyneeHash, password);
         }
 
-        public Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
+        public ShyneesRepository(DbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
         }
 
-        public Task<Shynee> GetShyneeAsync(Guid id)
+        public async Task<Guid> CreateShyneeAsync(Shynee shynee)
         {
-            throw new NotImplementedException();
+            await _dbContext.Shynees.InsertOneAsync(shynee);
+            return shynee.Id;
+        }
+
+        public async Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
+        {
+            var builder = Builders<Shynee>.Filter;
+            var filter = builder.Eq("Credentials.Email", credentials.Email);
+            var shynee = await _dbContext.Shynees.Find(filter).FirstOrDefaultAsync();
+            if (shynee != null)
+                if (!IsPasswordValid(shynee.Credentials.Password, credentials.Password))
+                    throw new InvalidPasswordException();
+            return shynee;
+        }
+
+        public async Task<Shynee> GetShyneeAsync(Guid id)
+        {
+            var shynee = await _dbContext.Shynees.FindAsync(s => s.Id == id);
+            return shynee.FirstOrDefault();
         }
 
         public Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinatesAsync()
@@ -28,19 +51,23 @@ namespace ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Shynee>> GetShyneesAsync()
+        public async Task<IEnumerable<Shynee>> GetShyneesAsync()
         {
-            throw new NotImplementedException();
+            var shynees = await _dbContext.Shynees.Find(shynee  => true).ToListAsync();
+            return shynees;
         }
 
-        public Task<bool> IsShyneeExistsAsync(string email)
+        public async Task<bool> IsShyneeExistsAsync(string email)
         {
-            throw new NotImplementedException();
+            var shynee = await _dbContext.Shynees.FindAsync(s => s.Credentials.Email == email);
+            return shynee.FirstOrDefault() == null ? false : true;
         }
 
-        public Task<Shynee> UpdateShyneeAsync(Shynee shynee)
+        public async Task<Shynee> UpdateShyneeAsync(Shynee shynee)
         {
-            throw new NotImplementedException();
+            await _dbContext.Shynees.FindOneAndReplaceAsync(
+                s => s.Id == shynee.Id, shynee);
+            return shynee;
         }
     }
 }

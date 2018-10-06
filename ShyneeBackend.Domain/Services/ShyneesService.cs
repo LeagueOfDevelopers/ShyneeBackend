@@ -155,6 +155,7 @@ namespace ShyneeBackend.Domain.Services
         public async Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
         {
             var shynee = await _shyneesRepository.FindShyneeByCredentialsAsync(credentials);
+            if (shynee == null) throw new ShyneeNotFoundException();
             return shynee;
         }
 
@@ -222,7 +223,7 @@ namespace ShyneeBackend.Domain.Services
                 shynee.Profile.Interests.Parameter,
                 shynee.Profile.PersonalInfo.Parameter);
             shynee.UpdateProfile(updatedShyneeProfile);
-            _shyneesRepository.UpdateShyneeAsync(shynee);
+            await _shyneesRepository.UpdateShyneeAsync(shynee);
             var uploadedAssetUri = new UploadedAssetPathDto(
                 shynee.Profile.AvatarUri.Parameter);
             return uploadedAssetUri;

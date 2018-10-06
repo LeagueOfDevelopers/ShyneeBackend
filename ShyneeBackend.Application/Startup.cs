@@ -42,12 +42,6 @@ namespace ShyneeBackend.Application
                 applicationConfiguration["UploadsFolderName"]);
             services.AddSingleton(applicationSettings);
 
-            var dbConfiguration = Configuration.GetSection("Database:MongoDB");
-            var dbSettings = new DbSettings(
-                dbConfiguration["ConnectionString"],
-                dbConfiguration["Database"]);
-            services.AddSingleton(dbSettings);
-
             var securityConfiguration = Configuration.GetSection("Security");
             var securitySettings = new SecuritySettings(
                 securityConfiguration["EncryptionKey"], 
@@ -65,7 +59,14 @@ namespace ShyneeBackend.Application
             }
             else
             {
-                shyneesRepository = new ShyneesRepository();
+                var dbConfiguration = Configuration.GetSection("Database:MongoDB");
+                var dbSettings = new DbSettings(
+                    dbConfiguration["ConnectionString"],
+                    dbConfiguration["Database"]);
+                services.AddSingleton(dbSettings);
+                var dbMapper = new DbMapper();
+                var dbContext = new DbContext(dbSettings);
+                shyneesRepository = new ShyneesRepository(dbContext);
             }
 
             // SERVICES
