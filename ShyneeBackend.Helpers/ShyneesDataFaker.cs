@@ -57,7 +57,7 @@ namespace ShyneeBackend.Helpers
                         nameParameterStatus,
                         nameParameterStatus != ShyneeProfileParameterStatus.Empty ?
                             f.Person.FirstName : null),
-                    new ShyneeProfileParameter<DateTime>(
+                    new ShyneeProfileParameter<DateTime?>(
                         dobParameterStatus,
                         dobParameterStatus != ShyneeProfileParameterStatus.Empty ?
                             f.Person.DateOfBirth : default(DateTime)),
@@ -95,10 +95,11 @@ namespace ShyneeBackend.Helpers
             var shyneeCredentials = new ShyneeCredentials("shy@mail.com", Hasher.HashPassword("qwertyui"));
             var shyneeCoordinates = FakeShyneeCoordinates().Generate();
             var ShyneeSettings = new ShyneeSettings();
-            var shyneeProfile = new ShyneeProfile(new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),
+            var shyneeProfile = new ShyneeProfile(
+                    new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Visible, "Shynee"),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty),
-                    new ShyneeProfileParameter<DateTime>(ShyneeProfileParameterStatus.Empty),
+                    new ShyneeProfileParameter<DateTime?>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<Gender>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string[]>(ShyneeProfileParameterStatus.Empty),
                     new ShyneeProfileParameter<string>(ShyneeProfileParameterStatus.Empty));

@@ -44,6 +44,7 @@ namespace ShyneeBackend.Domain.Services
             ShyneeProfile profile)
         {
             var shynee = await _shyneesRepository.GetShyneeAsync(id);
+            profile.UpdateAvatarUri(shynee.Profile.AvatarUri);
             shynee.UpdateProfile(profile);
             await _shyneesRepository.UpdateShyneeAsync(shynee);
             return new ShyneeProfileDto(
@@ -174,7 +175,7 @@ namespace ShyneeBackend.Domain.Services
                 new ShyneeProfileParameter<string>(
                     fieldsPrivacy.Name,
                     shynee.Profile.Name.Parameter),
-                new ShyneeProfileParameter<DateTime>(
+                new ShyneeProfileParameter<DateTime?>(
                     fieldsPrivacy.Dob,
                     shynee.Profile.Dob.Parameter),
                 new ShyneeProfileParameter<Gender>(

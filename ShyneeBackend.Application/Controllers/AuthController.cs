@@ -47,7 +47,6 @@ namespace ShyneeBackend.Application.Controllers
                 Hasher.HashPassword(shynee.Password));
             var shyneeProfile = new ShyneeProfile(
                 shynee.Nickname,
-                shynee.AvatarUri,
                 shynee.Name,
                 shynee.Dob,
                 shynee.Gender,

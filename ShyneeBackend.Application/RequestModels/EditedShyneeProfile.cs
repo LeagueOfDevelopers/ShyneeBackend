@@ -9,11 +9,12 @@ namespace ShyneeBackend.Application.RequestModels
         [Required]
         public string Nickname { get; set; }
 
-        public string AvatarUri { get; set; }
-
         public string Name { get; set; }
 
-        public DateTime Dob { get; set; }
+        /// <summary>
+        /// Format: YYYY-MM-DD
+        /// </summary>
+        public DateTime? Dob { get; set; }
 
         public Gender Gender { get; set; }
 

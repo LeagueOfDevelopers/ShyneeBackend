@@ -61,7 +61,6 @@ namespace ShyneeBackend.Application.Controllers
                 id, 
                 new ShyneeProfile(
                     profile.Nickname,
-                    profile.AvatarUri,
                     profile.Name,
                     profile.Dob,
                     profile.Gender,
