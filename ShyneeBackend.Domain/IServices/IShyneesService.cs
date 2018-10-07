@@ -25,7 +25,7 @@ namespace ShyneeBackend.Domain.IServices
             Guid id,
             ShyneeCoordinates coordinates);
 
-        Task<ShyneeProfileDto> GetShyneeProfile(
+        Task<ShyneeProfileDto> GetShyneeProfileAsync(
             Guid id);
 
         Task<ShyneeProfileDto> UpdateShyneeProfileAsync(

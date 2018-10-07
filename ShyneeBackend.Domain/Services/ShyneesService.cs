@@ -24,7 +24,7 @@ namespace ShyneeBackend.Domain.Services
             _applicationSettings = applicationSettings;
         }
 
-        public async Task<ShyneeProfileDto> GetShyneeProfile(Guid id)
+        public async Task<ShyneeProfileDto> GetShyneeProfileAsync(Guid id)
         {
             var shynee = await _shyneesRepository.GetShyneeAsync(id);
             var shyneeProfile = shynee.Profile;
@@ -187,7 +187,7 @@ namespace ShyneeBackend.Domain.Services
                     fieldsPrivacy.PersonalInfo,
                     shynee.Profile.PersonalInfo.Parameter));
             shynee.UpdateProfile(shyneeProfileToUpdate);
-            _shyneesRepository.UpdateShyneeAsync(shynee);
+            await _shyneesRepository.UpdateShyneeAsync(shynee);
             return fieldsPrivacy;
         }
 

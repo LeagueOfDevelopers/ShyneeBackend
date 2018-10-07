@@ -7,7 +7,9 @@ using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -43,6 +45,7 @@ namespace ShyneeBackend.Application.Controllers
             if (Request.IsUserAuthorized())
             {
                 var id = Request.GetUserId();
+                shyneesAroundList = shyneesAroundList.Where(s => s.Id != id);
                 await _shyneesService.UpdateShyneeCoordinatesAsync(
                     id, 
                     shyneeCoordinates);
