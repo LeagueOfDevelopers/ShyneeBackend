@@ -49,7 +49,7 @@ namespace ShyneeBackend.Application.Controllers
             var uploadedImageName = await _assetsService.UploadImageAsync(
                 _hostingEnvironment.WebRootPath,
                 image);
-            _shyneesService.UpdateShyneeAvatar(id, uploadedImageName);
+            await _shyneesService.UpdateShyneeAvatarAsync(id, uploadedImageName);
             var uploadedAssetUri = new UploadedAssetPathDto(uploadedImageName);
             return Ok(uploadedAssetUri);
         }

@@ -12,6 +12,7 @@ using ShyneeBackend.Domain.IRepositories;
 using ShyneeBackend.Domain.IServices;
 using ShyneeBackend.Domain.Services;
 using ShyneeBackend.Domain.Settings;
+using ShyneeBackend.Infrastructure;
 using ShyneeBackend.Infrastructure.Repositories.DatabaseRepositories;
 using ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories;
 using Swashbuckle.AspNetCore.Swagger;
@@ -58,7 +59,14 @@ namespace ShyneeBackend.Application
             }
             else
             {
-                shyneesRepository = new ShyneesRepository();
+                var dbConfiguration = Configuration.GetSection("Database:MongoDB");
+                var dbSettings = new DbSettings(
+                    dbConfiguration["ConnectionString"],
+                    dbConfiguration["Database"]);
+                services.AddSingleton(dbSettings);
+                var dbMapper = new DbMapper();
+                var dbContext = new DbContext(dbSettings);
+                shyneesRepository = new ShyneesRepository(dbContext);
             }
 
             // SERVICES

@@ -7,7 +7,9 @@ using ShyneeBackend.Domain.IServices;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ShyneeBackend.Application.Controllers
 {
@@ -38,12 +40,15 @@ namespace ShyneeBackend.Application.Controllers
             var shyneeCoordinates = new ShyneeCoordinates(
                 coordinates.Latitude, 
                 coordinates.Longitude);
-            var shyneesAroundList = _shyneesService
-                .GetShyneesAroundList(shyneeCoordinates);
+            var shyneesAroundList = await _shyneesService
+                .GetShyneesAroundListAsync(shyneeCoordinates);
             if (Request.IsUserAuthorized())
             {
                 var id = Request.GetUserId();
-                _shyneesService.UpdateShyneeCoordinates(id, shyneeCoordinates);
+                shyneesAroundList = shyneesAroundList.Where(s => s.Id != id);
+                await _shyneesService.UpdateShyneeCoordinatesAsync(
+                    id, 
+                    shyneeCoordinates);
             }
             return Ok(shyneesAroundList);
         }
@@ -60,7 +65,7 @@ namespace ShyneeBackend.Application.Controllers
         [SwaggerResponse(401, Type = typeof(UnauthorizedResult))]
         public async Task<IActionResult> GetShynee([FromRoute] Guid id)
         {
-            var shynee = _shyneesService.GetShyneePublicData(id);
+            var shynee = await _shyneesService.GetShyneePublicDataAsync(id);
             return Ok(shynee);
         }
     }

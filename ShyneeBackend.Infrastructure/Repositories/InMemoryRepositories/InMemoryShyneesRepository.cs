@@ -5,6 +5,7 @@ using ShyneeBackend.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
 {
@@ -22,14 +23,14 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
             _shyneesStore = ShyneesDataFaker.GenerateShynees();
         }
 
-        public Shynee GetShynee(Guid id)
+        public async Task<Shynee> GetShyneeAsync(Guid id)
         {
 
             var shynee = _shyneesStore.Find(s => s.Id == id);
             return shynee == null ? throw new ShyneeNotFoundException() : shynee;
         }
 
-        public Shynee UpdateShynee(Shynee shynee)
+        public async Task<Shynee> UpdateShyneeAsync(Shynee shynee)
         {
             var shyneeToUpdate = _shyneesStore.Find(s => shynee.Id == s.Id);
             _shyneesStore.Remove(shyneeToUpdate);
@@ -37,31 +38,31 @@ namespace ShyneeBackend.Infrastructure.Repositories.InMemoryRepositories
             return shynee;
         }
 
-        public IEnumerable<ShyneeCoordinates> GetShyneeCoordinates()
+        public async Task<IEnumerable<ShyneeCoordinates>> GetShyneeCoordinatesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Shynee> GetShynees()
+        public async Task<IEnumerable<Shynee>> GetShyneesAsync()
         {
             return _shyneesStore;
         }
 
-        public bool IsShyneeExists(string email)
+        public async Task<bool> IsShyneeExistsAsync(string email)
         {
             return _shyneesStore.Exists(s => s.Credentials.Email == email);
         }
 
-        public Guid CreateShynee(Shynee shynee)
+        public async Task<Guid> CreateShyneeAsync(Shynee shynee)
         {
             _shyneesStore.Add(shynee);
             return shynee.Id;
         }
 
-        public Shynee FindShyneeByCredentials(ShyneeCredentials credentials)
+        public async Task<Shynee> FindShyneeByCredentialsAsync(ShyneeCredentials credentials)
         {
-            if (!IsShyneeExists(credentials.Email))
-                throw new ShyneeNotFoundException();
+            if (!await IsShyneeExistsAsync(credentials.Email))
+                throw new ShyneeNotFoundException("Shynee with required email is not found");
             var shynee = _shyneesStore.Single(s => s.Credentials.Email == credentials.Email);
             var shyneeHash = shynee.Credentials.Password;
             if (!IsPasswordValid(shyneeHash, credentials.Password))

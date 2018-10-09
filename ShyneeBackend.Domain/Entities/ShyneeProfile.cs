@@ -40,10 +40,10 @@ namespace ShyneeBackend.Domain.Entities
                     new ShyneeProfileParameter<string>();
             Dob =
                 dob != null ?
-                    new ShyneeProfileParameter<DateTime>(
+                    new ShyneeProfileParameter<DateTime?>(
                         ShyneeProfileParameterStatus.Hidden,
                         (DateTime)dob) :
-                    new ShyneeProfileParameter<DateTime>();
+                    new ShyneeProfileParameter<DateTime?>();
             Gender =
                 gender != null ?
                     new ShyneeProfileParameter<Gender>(
@@ -68,7 +68,7 @@ namespace ShyneeBackend.Domain.Entities
             ShyneeProfileParameter<string> nickname = null,
             ShyneeProfileParameter<string> avatarUri = null, 
             ShyneeProfileParameter<string> name = null, 
-            ShyneeProfileParameter<DateTime> dob = null, 
+            ShyneeProfileParameter<DateTime?> dob = null, 
             ShyneeProfileParameter<Gender> gender = null, 
             ShyneeProfileParameter<string[]> interests = null, 
             ShyneeProfileParameter<string> personalInfo = null)
@@ -82,19 +82,68 @@ namespace ShyneeBackend.Domain.Entities
 
             AvatarUri = avatarUri ?? new ShyneeProfileParameter<string>(); 
             Name = name ?? new ShyneeProfileParameter<string>();
-            Dob = dob ?? new ShyneeProfileParameter<DateTime>();
+            Dob = dob ?? new ShyneeProfileParameter<DateTime?>();
             Gender = gender ?? new ShyneeProfileParameter<Gender>();
             Interests = interests ?? new ShyneeProfileParameter<string[]>();
             PersonalInfo = personalInfo ?? new ShyneeProfileParameter<string>();
         }
 
+        public ShyneeProfile(
+            string nickname,
+            string name,
+            DateTime? dob,
+            Gender? gender,
+            string[] interests,
+            string personalInfo)
+        {
+            Nickname =
+                nickname != null ?
+                new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        nickname) :
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        _defaultNickname);
+            Name =
+                name != null ?
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        name) :
+                    new ShyneeProfileParameter<string>();
+            Dob =
+                dob != null ?
+                    new ShyneeProfileParameter<DateTime?>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        (DateTime)dob) :
+                    new ShyneeProfileParameter<DateTime?>();
+            Gender =
+                gender != null ?
+                    new ShyneeProfileParameter<Gender>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        (Gender)gender) :
+                    new ShyneeProfileParameter<Gender>();
+            Interests =
+                interests != null ?
+                    new ShyneeProfileParameter<string[]>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        interests) :
+                    new ShyneeProfileParameter<string[]>();
+            PersonalInfo =
+                personalInfo != null ?
+                    new ShyneeProfileParameter<string>(
+                        ShyneeProfileParameterStatus.Hidden,
+                        personalInfo) :
+                    new ShyneeProfileParameter<string>();
+            AvatarUri = new ShyneeProfileParameter<string>();
+        }
+
         public ShyneeProfileParameter<string> Nickname { get; }
 
-        public ShyneeProfileParameter<string> AvatarUri { get; }
+        public ShyneeProfileParameter<string> AvatarUri { get; private set; }
 
         public ShyneeProfileParameter<string> Name { get; }
 
-        public ShyneeProfileParameter<DateTime> Dob { get; }
+        public ShyneeProfileParameter<DateTime?> Dob { get; }
 
         public ShyneeProfileParameter<Gender> Gender { get; }
 
@@ -140,6 +189,11 @@ namespace ShyneeBackend.Domain.Entities
                 PersonalInfo.Status == ShyneeProfileParameterStatus.Visible ?
                     true : false);
             return shyneeProfileFieldsPrivacy;
+        }
+
+        public void UpdateAvatarUri(ShyneeProfileParameter<string> avatarUri)
+        {
+            AvatarUri = avatarUri;
         }
     }
 }
